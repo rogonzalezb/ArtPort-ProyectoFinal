@@ -114,8 +114,8 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
   console.log(e);
   console.log("listo!");
 
-  app.toolbar.show('#topNavbar');
-  // mostrarNavbar();
+  app.navbar.show('#topNavbar');
+
 
 
 
@@ -131,7 +131,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
   console.log("listo!");
 
   app.navbar.hide('#topNavbar');
-  // esconderNavbar();
+
 
 
 
@@ -212,11 +212,3 @@ function fnIngresar() {
     });
 
 }
-
-// function esconderNavbar() {
-//   app.navbar.hide('#topNavbar');
-// }
-//
-// function mostrarNavbar() {
-//   app.toolbar.show('#topNavbar');
-// }
