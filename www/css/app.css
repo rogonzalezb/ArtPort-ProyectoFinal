@@ -1,8 +1,38 @@
 /* Your app custom styles here */
 
-.icono1 {
+.iconoToolbar {
   height: 4vh !important;
 }
+
+.iconoNavbar {
+  height: 3.5vh !important;
+}
+
+#primeraFoto {
+  width: 90vw;
+}
+
+.block-title {
+  margin-top: 20px !important;
+}
+
+.imgPerfil {
+  width: 100vw;
+}
+
+/* #perfPNormalPestañas {
+  background-image: url('../img/fondo-blanco.png');
+  background-position: bottom;
+  background-size: cover;
+  height: 60vh;
+} */
+
+/* #perfPNormal {
+  background-image: url('../img/hokusai.jpg');
+
+  background-position: top;
+  background-size: contain 50vh;
+} */
 
 
 

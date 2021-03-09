@@ -42,36 +42,37 @@
     <div class="view view-main">
 
       <!-- Top Navbar -->
-      <div id="topNavbar" class="navbar">
+      <div id="topNavbar" class="navbar no-hairline no-shadow">
         <div class="navbar-bg"></div>
         <div class="navbar-inner">
-          <div class="left"><i class="icon icon-back"></i></div>
-          <div class="title">Page Title</div>
-          <div class="right"><i class="icon icon-forward"></i></div>
+          <div class="title left">Logo</div>
+          <div class="right">
+            <a href="#" class="link"><img class="iconoNavbar" src="img/161-alarm.png" alt="home"></a>
+            <a href="#" class="link"><img class="iconoNavbar" src="img/160-chat.png" alt="home"></a>
+          </div>
         </div>
       </div>
 
       <!-- Toolbar -->
-      <div id="botToolbar" class="toolbar tabbar toolbar-bottom">
+      <div id="botToolbar" class="toolbar tabbar toolbar-bottom no-hairline no-shadow">
         <div class="toolbar-inner">
           <!-- Toolbar links -->
-          <a href="/index/" class="link"><img class="icono1" src="img/141-home.png" alt="home"></a>
-          <a href="#" class="link"><img class="icono1" src="img/079-search.png" alt="buscar"></a>
-          <a href="#" class="link"><img class="icono1" src="img/043-plus.png" alt="mas"></a>
-          <a href="#" class="link"><img class="icono1" src="img/028-user-1.png" alt="perfil"></a>
+          <a href="/inicio/" class="link"><img class="iconoToolbar" src="img/141-home.png" alt="home"></a>
+          <a href="#" class="link"><img class="iconoToolbar" src="img/079-search.png" alt="buscar"></a>
+          <a href="#" class="link"><img class="iconoToolbar" src="img/043-plus.png" alt="mas"></a>
+          <a href="/perf-personal-normal/" class="link"><img class="iconoToolbar" src="img/028-user-1.png" alt="perfil"></a>
         </div>
       </div>
 
       <!-- Initial Page, "data-name" contains page name -->
-      <div data-name="index" class="page">
+      <div data-name="index" class="page no-navbar no-toolbar">
         <!-- Scrollable page content -->
         <div class="page-content">
           <div class="block">
-            <p>Page content goes here</p>
+            <!-- <p>Page content goes here</p> -->
             <!-- Link to another page -->
-            <a href="/registro/" data-view=".page-content">Registro</a>
-            <a href="/ingresar/" data-view=".page-content">Ingresar</a>
-
+            <button id="aIngreso" class="button button-fill button-round" type="button" name="button">Ingresar</button>
+            <button id="aRegistro" class="button button-fill button-round" type="button" name="button">Registrarse</button>
           </div>
         </div>
       </div>

@@ -25,6 +25,14 @@ var app = new Framework7({
       path: '/index/',
       url: 'index.html',
     },
+    {
+      path: '/inicio/',
+      url: 'inicio.html',
+    },
+    {
+      path: '/perf-personal-normal/',
+      url: 'perf-personal-normal.html',
+    },
   ]
   // ... other parameters
 });
@@ -44,14 +52,37 @@ $$(document).on('page:init', function(e) {
   console.log(e);
 })
 
-// Option 2. Using live 'page:init' event handlers for each page
+
+// --------------------------------INDEX -------------------------------------------
+$$(document).on('page:init', '.page[data-name="index"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+  // app.toolbar.hide('#botToolbar');
+
+  $$('#aIngreso').on('click', function(){
+    mainView.router.navigate('/ingresar/');
+  })
+
+  $$('#aRegistro').on('click', function(){
+    mainView.router.navigate('/registro/');
+  })
+
+
+
+})
+
+
+// ----------------------------------REGISTRO------------------------------------------
 $$(document).on('page:init', '.page[data-name="registro"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
   console.log("listo!");
 
-  app.navbar.hide('#topNavbar', false);
-  app.toolbar.hide('#botToolbar', false);
+  // app.navbar.hide('#topNavbar');
+  // app.toolbar.hide('#botToolbar');
 
   $$('#noArtista').on('click', fnActivar);
   $$('#artista').on('click', fnActivar2);
@@ -61,13 +92,15 @@ $$(document).on('page:init', '.page[data-name="registro"]', function(e) {
 
 })
 
+
+//-----------------------------------INGRESAR----------------------------------------------
 $$(document).on('page:init', '.page[data-name="ingresar"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
   console.log("listo!");
 
-  app.navbar.hide('#topNavbar', false);
-  app.toolbar.hide('#botToolbar', false);
+  // app.navbar.hide('#topNavbar');
+  // app.toolbar.hide('#botToolbar');
 
   $$('#btnIngresar').on('click', fnIngresar);
 
@@ -75,6 +108,39 @@ $$(document).on('page:init', '.page[data-name="ingresar"]', function(e) {
 })
 
 
+//-----------------------------------INICIO----------------------------------------------
+$$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.toolbar.show('#topNavbar');
+  // mostrarNavbar();
+
+
+
+
+
+})
+
+
+//------------------------------PERFIL PERSONAL NORMAL-----------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+  // esconderNavbar();
+
+
+
+
+
+})
+
+
+//  ---------------FUNCIONES-----------------
 
 function fnActivar() {
   $$('#noArtista').addClass('activo');
@@ -111,7 +177,7 @@ function fnRegistrar() {
       };
       colUsuarios.doc(rEmail).set(datos);
 
-
+      mainView.router.navigate('/inicio/');
     })
 
     .catch(function(error) {
@@ -137,7 +203,7 @@ function fnIngresar() {
     .then((user) => {
       console.log("ingresaste");
 
-      mainView.router.navigate('/index/');
+      mainView.router.navigate('/inicio/');
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -146,3 +212,11 @@ function fnIngresar() {
     });
 
 }
+
+// function esconderNavbar() {
+//   app.navbar.hide('#topNavbar');
+// }
+//
+// function mostrarNavbar() {
+//   app.toolbar.show('#topNavbar');
+// }

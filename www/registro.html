@@ -1,5 +1,5 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
-<div class="page" data-name="registro">
+<div id="pageRegistro" class="page no-toolbar no-navbar" data-name="registro">
   <div class="page-content">
     <div class="block-title">Registrarse</div>
     <div class="list inset">
@@ -39,16 +39,27 @@
             </div>
           </div>
         </li>
-        <li class="item-content item-input">
+        <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
             <div class="item-input-wrap">
               <input id="regFecha" type="date" placeholder="Fecha de nacimiento" />
               <span class="input-clear-button"></span>
+              <div class="item-input-info">Fecha de nacimiento</div>
             </div>
           </div>
         </li>
+        <li id="fechaNacimiento" class="item-content item-input item-input-with-info">
+        <div class="item-inner">
+          <div class="item-input-wrap">
+            <input type="file" placeholder="Elegir icono" />
+            <span class="input-clear-button"></span>
+            <div class="item-input-info">La imagen de icono también sera la imagen de presentación en tu perfil.</div>
+          </div>
+        </div>
+      </li>
       </ul>
       <button id="btnRegistro" class="button button-fill button-round" type="button" name="button">Registrarse</button>
+      <p>¿Ya tienes una cuenta? <a href="/ingresar/">Ingresa!</a></p>
     </div>
   </div>
 </div>
