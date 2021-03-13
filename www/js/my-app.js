@@ -33,6 +33,10 @@ var app = new Framework7({
       path: '/perf-personal-normal/',
       url: 'perf-personal-normal.html',
     },
+    {
+      path: '/perf-personal-artista/',
+      url: 'perf-personal-artista.html',
+    },
   ]
   // ... other parameters
 });
@@ -40,6 +44,10 @@ var app = new Framework7({
 var mainView = app.views.create('.view-main');
 var db = firebase.firestore();
 var colUsuarios = db.collection("usuarios");
+
+var email = "";
+var idUsuario = "";
+
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -62,11 +70,23 @@ $$(document).on('page:init', '.page[data-name="index"]', function(e) {
   app.navbar.hide('#topNavbar');
   // app.toolbar.hide('#botToolbar');
 
-  $$('#aIngreso').on('click', function(){
+  $$('#home').on('click', function() {
+    mainView.router.navigate('/inicio/');
+  })
+  $$('#buscar').on('click', function() {
+    mainView.router.navigate('/buscar/');
+  })
+  $$('#postNuevo').on('click', function() {
+    mainView.router.navigate('/postNuevo/');
+  })
+  // $$('#miPerfil').on('click', function() {
+  //   mainView.router.navigate('/perf-personal-normal/');
+  // })
+
+  $$('#aIngreso').on('click', function() {
     mainView.router.navigate('/ingresar/');
   })
-
-  $$('#aRegistro').on('click', function(){
+  $$('#aRegistro').on('click', function() {
     mainView.router.navigate('/registro/');
   })
 
@@ -132,7 +152,29 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 
   app.navbar.hide('#topNavbar');
 
+  idUsuario = $$('#idOculto').html();
+  console.log('mi email: ' + idUsuario);
 
+  fnTomarDatosPerfilNor();
+
+
+
+
+})
+
+
+//------------------------------PERFIL PERSONAL ARTISTA-----------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-personal-artista"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+
+  idUsuario = $$('#idOculto').html();
+  console.log('mi email: ' + idUsuario);
+
+  fnTomarDatosPerfilArt();
 
 
 
@@ -202,13 +244,94 @@ function fnIngresar() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
       console.log("ingresaste");
+      // var idUsuario = email;
 
-      mainView.router.navigate('/inicio/');
+      colUsuarios.doc(email).get().then((doc) => {
+        if (doc.exists) {
+          var dbTipoUsuario = doc.data().tipoUsuario;
+          console.log('documento existe');
+          console.log('tipo usuario: ' + dbTipoUsuario);
+
+          if (dbTipoUsuario == 'artista') {
+            var miNombre = doc.data().nombreUsuario;
+            console.log('Mi usuario: ' + miNombre);
+
+            $$('#idOculto').html(email);
+            fnMiPerfilArtista();
+
+            mainView.router.navigate('/inicio/');
+
+          } else if (dbTipoUsuario == 'noArtista') {
+            var miNombre = doc.data().nombreUsuario;
+            console.log('Mi usuario: ' + miNombre);
+
+            $$('#idOculto').html(email);
+            fnMiPerfilNormal();
+
+            mainView.router.navigate('/inicio/');
+
+          }
+
+
+
+        }
+      })
+
     })
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-      alert(errorCode);
+      console.log(errorCode + errorMessage);
     });
+
+}
+
+function fnMiPerfilArtista() {
+  $$('#miPerfil').on('click', function() {
+    mainView.router.navigate('/perf-personal-artista/');
+  })
+}
+
+function fnMiPerfilNormal() {
+  $$('#miPerfil').on('click', function() {
+    mainView.router.navigate('/perf-personal-normal/');
+  })
+}
+
+function fnTomarDatosPerfilArt() {
+
+  colUsuarios.doc(idUsuario).get().then((doc) => {
+    if (doc.exists) {
+      console.log('documento existe');
+
+      miNombre = doc.data().nombreUsuario;
+      console.log('Mi usuario: ' + miNombre);
+      $$('#miUsuarioArtista').html(miNombre);
+
+    }
+  }).catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode + errorMessage);
+  });
+
+}
+
+function fnTomarDatosPerfilNor() {
+
+  colUsuarios.doc(idUsuario).get().then((doc) => {
+    if (doc.exists) {
+      console.log('documento existe');
+
+      miNombre = doc.data().nombreUsuario;
+      console.log('Mi usuario: ' + miNombre);
+      $$('#miUsuarioNormal').html(miNombre);
+
+    }
+  }).catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode + errorMessage);
+  });
 
 }

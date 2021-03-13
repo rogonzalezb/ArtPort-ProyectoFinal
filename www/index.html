@@ -45,7 +45,9 @@
       <div id="topNavbar" class="navbar no-hairline no-shadow">
         <div class="navbar-bg"></div>
         <div class="navbar-inner">
-          <div class="title left">Logo</div>
+          <div class="title left">Logo
+            <p id="idOculto" hidden></p>
+          </div>
           <div class="right">
             <a href="#" class="link"><img class="iconoNavbar" src="img/161-alarm.png" alt="home"></a>
             <a href="#" class="link"><img class="iconoNavbar" src="img/160-chat.png" alt="home"></a>
@@ -57,10 +59,23 @@
       <div id="botToolbar" class="toolbar tabbar toolbar-bottom no-hairline no-shadow">
         <div class="toolbar-inner">
           <!-- Toolbar links -->
-          <a href="/inicio/" class="link"><img class="iconoToolbar" src="img/141-home.png" alt="home"></a>
-          <a href="#" class="link"><img class="iconoToolbar" src="img/079-search.png" alt="buscar"></a>
-          <a href="#" class="link"><img class="iconoToolbar" src="img/043-plus.png" alt="mas"></a>
-          <a href="/perf-personal-normal/" class="link"><img class="iconoToolbar" src="img/028-user-1.png" alt="perfil"></a>
+          <div id="home" class="link">
+            <img class="iconoToolbar" src="img/141-home.png" alt="home">
+          </div>
+          <div id="buscar" class="link">
+            <img class="iconoToolbar" src="img/079-search.png" alt="buscar">
+          </div>
+          <div id="postNuevo" class="link">
+            <img class="iconoToolbar" src="img/043-plus.png" alt="mas">
+          </div>
+          <div id="miPerfil" class="link">
+            <img class="iconoToolbar" src="img/028-user-1.png" alt="perfil">
+          </div>
+
+          <!-- <a id="home" href="/inicio/" class="link"><img class="iconoToolbar" src="img/141-home.png" alt="home"></a>
+          <a id="buscar" href="#" class="link"><img class="iconoToolbar" src="img/079-search.png" alt="buscar"></a>
+          <a id="postNuevo" href="#" class="link"><img class="iconoToolbar" src="img/043-plus.png" alt="mas"></a>
+          <a id="miPerfil" href="/perf-personal-normal/" class="link"><img class="iconoToolbar" src="img/028-user-1.png" alt="perfil"></a> -->
         </div>
       </div>
 
