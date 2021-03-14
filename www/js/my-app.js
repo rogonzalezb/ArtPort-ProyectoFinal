@@ -198,25 +198,46 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   console.log("listo!");
 
   app.navbar.hide('#topNavbar');
-  // app.toolbar.hide('#botToolbar');
 
-  // fnAgregarTag();
-
+  var tagArray = [];
 
   $$('#agregarTag').on('click', function() {
     var tag = $$('#textTag').val();
     console.log("tag: " + tag);
+    sumarTag = tagArray.push(tag);
+    console.log(tagArray);
     $$('#contenedorTags').append('<div class="chip"><div class="chip-label">' + tag + '</div><a href="#" class="chip-delete"></a></div>');
   });
 
-  $$('.chip-delete').on('click', borrarTag());
+  $$('.chip-delete').on('click', borrarTag);
 
-  // $$('.chip-delete').on('click', function(e) {
-  //   e.preventDefault();
-  //   var chip = $$(this).parents('.chip');
-  //   chip.remove();
-  //
-  // });
+  $$('#btnPublicar').on('click', function() {
+    var titText = $$('#tituloText').val();
+    var descText = $$('#descripText').val();
+    var emailOculto = $$('#idOculto').html();
+    var tArray = tagArray;
+    console.log(titText + ", " + descText + ", " + tArray);
+
+    db.collection("postsTexto").add({
+        email: emailOculto,
+        titulo: titText,
+        descripcion: descText,
+        tags: tArray,
+        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  });
+
+  $$('#nuevoTexto').on('click', fnTextActivo);
+  $$('#nuevaImg').on('click', fnImgActivo);
+
+
+
 
 
 
@@ -224,7 +245,9 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
 })
 
 
-//  ---------------FUNCIONES-----------------
+
+
+//  ---------------------------------------  FUNCIONES  --------------------------------------------------
 
 function fnActivar() {
   $$('#noArtista').addClass('activo');
@@ -311,10 +334,7 @@ function fnIngresar() {
             fnMiPerfilNormal();
 
             mainView.router.navigate('/inicio/');
-
           }
-
-
 
         }
       })
@@ -378,19 +398,18 @@ function fnTomarDatosPerfilNor() {
 
 }
 
-// function fnAgregarTag() {
-//
-//   var tag = $$('#textTag').val();
-//   console.log("tag: " + tag);
-//   $$('#agregarTag').on('click', function() {
-//     $$('#contenedorTags').append('<div class="chip"><div class="chip-label">' + tag + '</div><a href="#" class="chip-delete"></a></div>');
-//   })
-//
-// }
-
 function borrarTag(e) {
   e.preventDefault();
   var chip = $$(this).parents('.chip');
   chip.remove();
+}
 
-});
+function fnTextActivo() {
+  $$('#nuevoTexto').addClass('activo');
+  $$('#nuevaImg').removeClass('activo');
+}
+
+function fnImgActivo() {
+  $$('#nuevaImg').addClass('activo');
+  $$('#nuevoTexto').removeClass('activo');
+}
