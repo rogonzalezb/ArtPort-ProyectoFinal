@@ -37,6 +37,14 @@ var app = new Framework7({
       path: '/perf-personal-artista/',
       url: 'perf-personal-artista.html',
     },
+    {
+      path: '/post-nuevo/',
+      url: 'post-nuevo.html',
+    },
+    // {
+    //   path: '/perf-personal-artista/',
+    //   url: 'perf-personal-artista.html',
+    // },
   ]
   // ... other parameters
 });
@@ -48,6 +56,7 @@ var colUsuarios = db.collection("usuarios");
 var email = "";
 var idUsuario = "";
 
+var tag = $$('#textTag').val();
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -77,7 +86,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function(e) {
     mainView.router.navigate('/buscar/');
   })
   $$('#postNuevo').on('click', function() {
-    mainView.router.navigate('/postNuevo/');
+    mainView.router.navigate('/post-nuevo/');
   })
   // $$('#miPerfil').on('click', function() {
   //   mainView.router.navigate('/perf-personal-normal/');
@@ -175,6 +184,39 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
   console.log('mi email: ' + idUsuario);
 
   fnTomarDatosPerfilArt();
+
+
+
+
+})
+
+
+//------------------------------------POST NUEVO-----------------------------------------
+$$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+  // app.toolbar.hide('#botToolbar');
+
+  // fnAgregarTag();
+
+
+  $$('#agregarTag').on('click', function() {
+    var tag = $$('#textTag').val();
+    console.log("tag: " + tag);
+    $$('#contenedorTags').append('<div class="chip"><div class="chip-label">' + tag + '</div><a href="#" class="chip-delete"></a></div>');
+  });
+
+  $$('.chip-delete').on('click', borrarTag());
+
+  // $$('.chip-delete').on('click', function(e) {
+  //   e.preventDefault();
+  //   var chip = $$(this).parents('.chip');
+  //   chip.remove();
+  //
+  // });
 
 
 
@@ -335,3 +377,20 @@ function fnTomarDatosPerfilNor() {
   });
 
 }
+
+// function fnAgregarTag() {
+//
+//   var tag = $$('#textTag').val();
+//   console.log("tag: " + tag);
+//   $$('#agregarTag').on('click', function() {
+//     $$('#contenedorTags').append('<div class="chip"><div class="chip-label">' + tag + '</div><a href="#" class="chip-delete"></a></div>');
+//   })
+//
+// }
+
+function borrarTag(e) {
+  e.preventDefault();
+  var chip = $$(this).parents('.chip');
+  chip.remove();
+
+});

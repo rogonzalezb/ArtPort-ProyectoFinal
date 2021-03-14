@@ -1,0 +1,61 @@
+<!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
+<div class="page no-toolbar" data-name="post-nuevo">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/inicio/" class="link"><img class="iconoNavbar" src="img/115-left-arrow.png" alt="home"></a>
+        <div class="title left">Nueva Publicación</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="list inset">
+      <ul>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <input type="radio" id="nuevoTexto" name="tipoPost" value="texto">
+              <label for="nuevoTexto" class="item-radio-icon-start">Texto</label>
+              <input type="radio" id="nuevaImg" name="tipoPost" value="imagen">
+              <label for="nuevaImg">Imagen</label><br>
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <input id="tituloText" type="text" placeholder="Titulo" />
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <textarea id="descripText" class="resizable" placeholder="Descripción"></textarea>
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <input id="textTag" type="text" placeholder="Tags" />
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+          <button id="agregarTag" class="button button-fill button-round button-small" type="button" name="button">Agregar Tag</button>
+        </li>
+      </ul>
+      <div id="contenedorTags" class="contenedorTags">
+        <div class="chip">
+          <div class="chip-label">Example Chip</div>
+          <a href="#" class="chip-delete"></a>
+        </div>
+      </div>
+
+      <button id="btnRegistro" class="button button-fill button-round" type="button" name="button">Publicar</button>
+    </div>
+  </div>
+</div>
