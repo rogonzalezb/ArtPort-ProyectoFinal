@@ -166,7 +166,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 
   fnTomarDatosPerfilNor();
 
-
+  
 
 
 })
