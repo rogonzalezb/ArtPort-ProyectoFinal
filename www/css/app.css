@@ -20,6 +20,11 @@
   width: 100vw;
 }
 
+#lista {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
 /* #perfPNormalPestañas {
   background-image: url('../img/fondo-blanco.png');
   background-position: bottom;

@@ -198,6 +198,7 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   console.log("listo!");
 
   app.navbar.hide('#topNavbar');
+  app.toolbar.hide('#botToolbar');
 
   var tagArray = [];
 
@@ -268,7 +269,7 @@ function fnRegistrar() {
 
   firebase.auth().createUserWithEmailAndPassword(rEmail, rPass)
     .then(function() {
-      console.log("registro ok");
+      // console.log("registro ok");
       // aca tengo el usuario generado en AUTH
 
       if ($$('#noArtista').hasClass("activo")) {
@@ -278,16 +279,46 @@ function fnRegistrar() {
       }
 
       datos = {
-        NombreUsuario: rUsua,
-        TipoUsuario: tipoUsuario,
-        Fecha: rFec
+        nombreUsuario: rUsua,
+        tipoUsuario: tipoUsuario,
+        fecha: rFec
       };
       colUsuarios.doc(rEmail).set(datos);
+      console.log('Usuario creado');
 
-      mainView.router.navigate('/inicio/');
-    })
+      // colUsuarios.doc(rEmail).get().then((doc) => {
+      //   if (doc.exists) {
+      //     var dbTipoUsuario = doc.data().tipoUsuario;
+      //     console.log('documento existe');
+      //     console.log('tipo usuario: ' + tipoUsuario);
 
-    .catch(function(error) {
+      if (tipoUsuario == 'artista') {
+        var miNombre = rUsua;
+        console.log('Mi usuario: ' + miNombre);
+
+        $$('#idOculto').html(rEmail);
+        fnMiPerfilArtista();
+
+        mainView.router.navigate('/inicio/');
+
+      } else if (tipoUsuario == 'noArtista') {
+        var miNombre = rUsua;
+        console.log('Mi usuario: ' + miNombre);
+
+        $$('#idOculto').html(rEmail);
+        fnMiPerfilNormal();
+
+        mainView.router.navigate('/inicio/');
+      }
+
+      //     }
+      //   }).catch((error) => {
+      //     var errorCode = error.code;
+      //     var errorMessage = error.message;
+      //     console.log(errorCode + errorMessage);
+      //   });
+      //
+    }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -298,6 +329,7 @@ function fnRegistrar() {
       }
       console.log(error);
     });
+
 
 }
 
@@ -366,9 +398,9 @@ function fnTomarDatosPerfilArt() {
     if (doc.exists) {
       console.log('documento existe');
 
-      miNombre = doc.data().nombreUsuario;
-      console.log('Mi usuario: ' + miNombre);
-      $$('#miUsuarioArtista').html(miNombre);
+      miUsuario = doc.data().nombreUsuario;
+      console.log('Mi usuario: ' + miUsuario);
+      $$('#miUsuarioArtista').html(miUsuario);
 
     }
   }).catch((error) => {
@@ -385,9 +417,9 @@ function fnTomarDatosPerfilNor() {
     if (doc.exists) {
       console.log('documento existe');
 
-      miNombre = doc.data().nombreUsuario;
-      console.log('Mi usuario: ' + miNombre);
-      $$('#miUsuarioNormal').html(miNombre);
+      miUsuario = doc.data().nombreUsuario;
+      console.log('Mi usuario: ' + miUsuario);
+      $$('#miUsuarioNormal').html(miUsuario);
 
     }
   }).catch((error) => {
@@ -407,9 +439,11 @@ function borrarTag(e) {
 function fnTextActivo() {
   $$('#nuevoTexto').addClass('activo');
   $$('#nuevaImg').removeClass('activo');
+  $$('.subirImagen').attr('hidden', true);
 }
 
 function fnImgActivo() {
   $$('#nuevaImg').addClass('activo');
   $$('#nuevoTexto').removeClass('activo');
+  $$('.subirImagen').removeAttr('hidden');
 }

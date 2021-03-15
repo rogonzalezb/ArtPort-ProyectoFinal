@@ -9,35 +9,40 @@
     </div>
   </div>
   <div class="page-content">
-    <div class="list inset">
+    <div id="lista" class="list inset">
 
       <ul>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap row">
-              <div class="col">
+        <div class="row">
+          <li class="item-content item-input col">
+            <div class="item-inner">
+              <div class="item-input-wrap ">
                 <input type="radio" id="nuevoTexto" class="icon-radio" name="tipoPost" value="texto" checked>
                 <label for="nuevoTexto">Texto</label>
+                <span class="input-clear-button"></span>
               </div>
-              <div class="col">
+            </div>
+          </li>
+          <li class="item-content item-input col">
+            <div class="item-inner">
+              <div class="item-input-wrap ">
                 <input type="radio" id="nuevaImg" class="icon-radio" name="tipoPost" value="imagen">
                 <label for="nuevaImg">Imagen</label>
+                <span class="input-clear-button"></span>
               </div>
-              <span class="input-clear-button"></span>
             </div>
-          </div>
-        </li>
-
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="file" placeholder="Elegir icono" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Elegir imagen...</div>
+          </li>
+        </div>
+        <div class="subirImagen" hidden>
+          <li class="item-content item-input item-input-with-info">
+            <div class="item-inner">
+              <div class="item-input-wrap">
+                <input type="file" placeholder="Elegir icono" />
+                <span class="input-clear-button"></span>
+                <div class="item-input-info">Elegir imagen...</div>
+              </div>
             </div>
-          </div>
-        </li>
-
+          </li>
+        </div>
         <li class="item-content item-input">
           <div class="item-inner">
             <div class="item-input-wrap">
@@ -70,8 +75,40 @@
           </div>
         </div>
 
-      </ul>
+        <div class="subirImagen" hidden>
+          <li class="item-content item-input col">
+            <div class="item-inner">
+              <div class="item-input-wrap ">
+                <input type="radio" id="contenido18" class="icon-radio" name="contenido18">
+                <label for="contenido18">Contenido +18</label>
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <p>Publicar en:</p>
+          <div class="row">
+            <li class="item-content item-input col">
+              <div class="item-inner">
+                <div class="item-input-wrap ">
+                  <input type="radio" id="postGaleria" class="icon-radio" name="ubicacionPost" value="galeria" checked>
+                  <label for="postGaleria">Galeria</label>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input col">
+              <div class="item-inner">
+                <div class="item-input-wrap ">
+                  <input type="radio" id="postGeneral" class="icon-radio" name="ubicacionPost" value="general">
+                  <label for="postGeneral">General</label>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+          </div>
+        </div>
 
+      </ul>
     </div>
     <button id="btnPublicar" class="button button-fill button-round" type="button" name="button">Publicar</button>
   </div>
