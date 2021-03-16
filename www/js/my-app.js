@@ -52,8 +52,9 @@ var app = new Framework7({
 var mainView = app.views.create('.view-main');
 var db = firebase.firestore();
 var colUsuarios = db.collection("usuarios");
+var colPostTexto = db.collection("postsTexto")
 
-var email = "";
+var email = $$('#emailLogin').val();
 var idUsuario = "";
 
 var tag = $$('#textTag').val();
@@ -162,11 +163,21 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
   app.navbar.hide('#topNavbar');
 
   idUsuario = $$('#idOculto').html();
-  console.log('mi email: ' + idUsuario);
+  // emailOculto = $$('#tipoOculto').html();
+  console.log(idUsuario);
 
   fnTomarDatosPerfilNor();
 
-  
+  colPostTexto.where('email', '==', idUsuario).get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + doc.data().fechaPublicacion + '</div>');
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 
 
 })
@@ -185,7 +196,16 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
   fnTomarDatosPerfilArt();
 
-
+  colPostTexto.where('email', '==', idUsuario).get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + doc.data().fechaPublicacion + '</div>');
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 
 
 })
@@ -200,6 +220,9 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   app.navbar.hide('#topNavbar');
   app.toolbar.hide('#botToolbar');
 
+  $$('#nuevoTexto').on('click', fnTextActivo);
+  $$('#nuevaImg').on('click', fnImgActivo);
+
   var tagArray = [];
 
   $$('#agregarTag').on('click', function() {
@@ -207,43 +230,32 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
     console.log("tag: " + tag);
     sumarTag = tagArray.push(tag);
     console.log(tagArray);
-    $$('#contenedorTags').append('<div class="chip"><div class="chip-label">' + tag + '</div><a href="#" class="chip-delete"></a></div>');
+    $$('#contenedorTags').append('<div class="chip"><div class="chip-label">#' + tag + '</div><a href="#" class="chip-delete"></a></div>');
   });
 
   $$('.chip-delete').on('click', borrarTag);
+
 
   $$('#btnPublicar').on('click', function() {
     var titText = $$('#tituloText').val();
     var descText = $$('#descripText').val();
     var emailOculto = $$('#idOculto').html();
+    var tipeOculto = $$('#tipoOculto').html();
     var tArray = tagArray;
     console.log(titText + ", " + descText + ", " + tArray);
 
-    db.collection("postsTexto").add({
+    colPostTexto.add({
+        tipeUser: tipeOculto,
         email: emailOculto,
         titulo: titText,
         descripcion: descText,
         tags: tArray,
         fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-  });
+  })
 
-  $$('#nuevoTexto').on('click', fnTextActivo);
-  $$('#nuevaImg').on('click', fnImgActivo);
+});
 
-
-
-
-
-
-
-})
 
 
 
@@ -286,17 +298,14 @@ function fnRegistrar() {
       colUsuarios.doc(rEmail).set(datos);
       console.log('Usuario creado');
 
-      // colUsuarios.doc(rEmail).get().then((doc) => {
-      //   if (doc.exists) {
-      //     var dbTipoUsuario = doc.data().tipoUsuario;
-      //     console.log('documento existe');
-      //     console.log('tipo usuario: ' + tipoUsuario);
 
       if (tipoUsuario == 'artista') {
         var miNombre = rUsua;
         console.log('Mi usuario: ' + miNombre);
 
         $$('#idOculto').html(rEmail);
+        $$('#tipoOculto').html(tipoUsuario);
+
         fnMiPerfilArtista();
 
         mainView.router.navigate('/inicio/');
@@ -306,6 +315,8 @@ function fnRegistrar() {
         console.log('Mi usuario: ' + miNombre);
 
         $$('#idOculto').html(rEmail);
+        $$('#tipoOculto').html(tipoUsuario);
+
         fnMiPerfilNormal();
 
         mainView.router.navigate('/inicio/');
@@ -335,13 +346,12 @@ function fnRegistrar() {
 
 function fnIngresar() {
 
-  email = $$('#emailLogin').val();
-  password = $$('#passLogin').val();
+  var email = $$('#emailLogin').val();
+  var password = $$('#passLogin').val();
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
       console.log("ingresaste");
-      // var idUsuario = email;
 
       colUsuarios.doc(email).get().then((doc) => {
         if (doc.exists) {
@@ -354,6 +364,8 @@ function fnIngresar() {
             console.log('Mi usuario: ' + miNombre);
 
             $$('#idOculto').html(email);
+            $$('#tipoOculto').html(dbTipoUsuario);
+
             fnMiPerfilArtista();
 
             mainView.router.navigate('/inicio/');
@@ -363,6 +375,8 @@ function fnIngresar() {
             console.log('Mi usuario: ' + miNombre);
 
             $$('#idOculto').html(email);
+            $$('#tipoOculto').html(dbTipoUsuario);
+
             fnMiPerfilNormal();
 
             mainView.router.navigate('/inicio/');
