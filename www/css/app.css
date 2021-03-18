@@ -25,6 +25,10 @@
   margin-bottom: 10px !important;
 }
 
+.imgTab {
+  width: 98vw;
+}
+
 /* #perfPNormalPestañas {
   background-image: url('../img/fondo-blanco.png');
   background-position: bottom;

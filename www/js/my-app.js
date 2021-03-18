@@ -51,13 +51,18 @@ var app = new Framework7({
 
 var mainView = app.views.create('.view-main');
 var db = firebase.firestore();
+var storage = firebase.storage();
+var storageRef = storage.ref();
 var colUsuarios = db.collection("usuarios");
 var colPostTexto = db.collection("postsTexto")
+var colPostImagen = db.collection("postImagen")
 
 var email = $$('#emailLogin').val();
 var idUsuario = "";
 
 var tag = $$('#textTag').val();
+
+
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -168,16 +173,42 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 
   fnTomarDatosPerfilNor();
 
-  colPostTexto.where('email', '==', idUsuario).get()
+  colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + doc.data().fechaPublicacion + '</div>');
+        var date = new Date((doc.data().fechaPublicacion).toDate());
+        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
       });
     })
     .catch((error) => {
       console.log("Error getting documents: ", error);
     });
+
+
+  colPostImagen.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        var date = new Date((doc.data().fechaPublicacion).toDate());
+
+        storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+          .then(function(url) {
+            console.log("url: " + url);
+            // $$("#fotosubida").attr("src", url);
+            var imgUrl = url;
+            $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+          }).catch(function(error) {
+            console.log("Error: " + error);
+          });
+
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
 
 
 })
@@ -196,11 +227,41 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
   fnTomarDatosPerfilArt();
 
-  colPostTexto.where('email', '==', idUsuario).get()
+  colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + doc.data().fechaPublicacion + '</div>');
+        var date = new Date((doc.data().fechaPublicacion).toDate());
+        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
+  colPostImagen.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        var date = new Date((doc.data().fechaPublicacion).toDate());
+
+        storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+          .then(function(url) {
+            console.log("url: " + url);
+            // $$("#fotosubida").attr("src", url);
+            var imgUrl = url;
+
+            if (doc.data().mostrarEn == 'galeria') {
+              $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+            } else if (doc.data().mostrarEn == 'general') {
+              $$('#tab-2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+            }
+
+          }).catch(function(error) {
+            console.log("Error: " + error);
+          });
+
       });
     })
     .catch((error) => {
@@ -209,6 +270,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
 
 })
+
 
 
 //------------------------------------POST NUEVO-----------------------------------------
@@ -235,7 +297,6 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
 
   $$('.chip-delete').on('click', borrarTag);
 
-
   $$('#btnPublicar').on('click', function() {
     var titText = $$('#tituloText').val();
     var descText = $$('#descripText').val();
@@ -244,7 +305,9 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
     var tArray = tagArray;
     console.log(titText + ", " + descText + ", " + tArray);
 
-    colPostTexto.add({
+    if ($$('#nuevoTexto').prop("checked")) {
+
+      colPostTexto.add({
         tipeUser: tipeOculto,
         email: emailOculto,
         titulo: titText,
@@ -252,7 +315,49 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
         tags: tArray,
         fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
       })
+
+      mainView.router.navigate('/inicio/');
+
+    } else if ($$('#nuevaImg').prop("checked")) {
+      var archivo = document.getElementById("file").files[0];
+
+      storage.ref(emailOculto + '/' + archivo.name).put(archivo);
+      console.log(archivo.name);
+
+      var archivoPath = (emailOculto + '/' + archivo.name);
+      console.log(archivoPath);
+
+      if ($$('#edadContenido').prop("checked")) {
+        var edadContenido = $$('#edadContenido').val();
+      } else {
+        var edadContenido = $$('#edadContenido').val('ATP');
+      }
+
+      if ($$('#postGaleria').prop("checked")) {
+        var dondeMostrar = $$('#postGaleria').val();
+      } else if ($$('#postGeneral').prop("checked")) {
+        var dondeMostrar = $$('#postGeneral').val();
+      }
+
+      colPostImagen.add({
+        archivo: archivoPath,
+        tipeUser: tipeOculto,
+        email: emailOculto,
+        titulo: titText,
+        descripcion: descText,
+        tags: tArray,
+        rating: edadContenido,
+        mostrarEn: dondeMostrar,
+        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+
+      mainView.router.navigate('/inicio/');
+
+    };
+
   })
+
+
 
 });
 
@@ -281,8 +386,6 @@ function fnRegistrar() {
 
   firebase.auth().createUserWithEmailAndPassword(rEmail, rPass)
     .then(function() {
-      // console.log("registro ok");
-      // aca tengo el usuario generado en AUTH
 
       if ($$('#noArtista').hasClass("activo")) {
         var tipoUsuario = $$('#noArtista').val();
@@ -322,13 +425,6 @@ function fnRegistrar() {
         mainView.router.navigate('/inicio/');
       }
 
-      //     }
-      //   }).catch((error) => {
-      //     var errorCode = error.code;
-      //     var errorMessage = error.message;
-      //     console.log(errorCode + errorMessage);
-      //   });
-      //
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -451,13 +547,23 @@ function borrarTag(e) {
 }
 
 function fnTextActivo() {
-  $$('#nuevoTexto').addClass('activo');
-  $$('#nuevaImg').removeClass('activo');
+  // $$('#nuevoTexto').addClass('activo');
+  // $$('#nuevaImg').removeClass('activo');
   $$('.subirImagen').attr('hidden', true);
 }
 
 function fnImgActivo() {
-  $$('#nuevaImg').addClass('activo');
-  $$('#nuevoTexto').removeClass('activo');
-  $$('.subirImagen').removeAttr('hidden');
+  var tipoU = $$('#tipoOculto').html();
+
+  if (tipoU == 'artista') {
+    // $$('#nuevaImg').addClass('activo');
+    // $$('#nuevoTexto').removeClass('activo');
+    $$('.subirImagen').removeAttr('hidden');
+  } else if (tipoU == 'noArtista') {
+    // $$('#nuevaImg').addClass('activo');
+    // $$('#nuevoTexto').removeClass('activo');
+    $$('.subirImagen').removeAttr('hidden');
+    $$('.unicoImgArtista').attr('hidden', true);
+  }
+
 }
