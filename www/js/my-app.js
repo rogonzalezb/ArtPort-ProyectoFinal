@@ -232,7 +232,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         var date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+        $$('#tab-2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
       });
     })
     .catch((error) => {
