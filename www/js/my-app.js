@@ -41,10 +41,14 @@ var app = new Framework7({
       path: '/post-nuevo/',
       url: 'post-nuevo.html',
     },
-    // {
-    //   path: '/perf-personal-artista/',
-    //   url: 'perf-personal-artista.html',
-    // },
+    {
+      path: '/buscar/',
+      url: 'buscar.html',
+    },
+    {
+      path: '/perf-ajeno/',
+      url: 'perf-ajeno.html',
+    },
   ]
   // ... other parameters
 });
@@ -61,7 +65,7 @@ var email = $$('#emailLogin').val();
 var idUsuario = "";
 
 var tag = $$('#textTag').val();
-
+var usuaAjeno = "";
 
 
 // Handle Cordova Device Ready Event
@@ -232,7 +236,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         var date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab-2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
       });
     })
     .catch((error) => {
@@ -253,9 +257,9 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
             var imgUrl = url;
 
             if (doc.data().mostrarEn == 'galeria') {
-              $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
             } else if (doc.data().mostrarEn == 'general') {
-              $$('#tab-2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
             }
 
           }).catch(function(error) {
@@ -327,16 +331,20 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
       var archivoPath = (emailOculto + '/' + archivo.name);
       console.log(archivoPath);
 
-      if ($$('#edadContenido').prop("checked")) {
-        var edadContenido = $$('#edadContenido').val();
-      } else {
-        var edadContenido = $$('#edadContenido').val('ATP');
+      if ($$('#edadATP').prop("checked")) {
+        var edadContenido = $$('#edadATP').val();
+        console.log(edadContenido);
+      } else if ($$('#edadDieciocho').prop("checked")) {
+        var edadContenido = $$('#edadDieciocho').val();
+        console.log(edadContenido);
       }
 
       if ($$('#postGaleria').prop("checked")) {
         var dondeMostrar = $$('#postGaleria').val();
+        console.log(dondeMostrar);
       } else if ($$('#postGeneral').prop("checked")) {
         var dondeMostrar = $$('#postGeneral').val();
+        console.log(dondeMostrar);
       }
 
       colPostImagen.add({
@@ -357,9 +365,66 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
 
   })
 
-
-
 });
+
+
+// ----------------------------------BUSCAR------------------------------------------
+$$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+  // app.toolbar.show('#botToolbar');
+
+  colUsuarios.orderBy('nombreUsuario').get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data().nombreUsuario);
+        $$('#resultadosBusqueda').append('<li class="item-content"><div class="item-inner"><div class="item-title"><a href="/perf-ajeno/">'+ doc.data().nombreUsuario +'</a></div></div></li>');
+        usuaAjeno = doc.data().nombreUsuario;
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+  var searchbar = app.searchbar.create({
+    el: '.searchbar',
+    searchContainer: '.list',
+    searchIn: '.item-title',
+    on: {
+      search(sb, query, previousQuery) {
+        console.log(query, previousQuery);
+      }
+    }
+  });
+
+
+
+
+})
+
+
+//-----------------------------------PERFIL AJENO----------------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+  // var tipo = $$('#tipoOculto').val();
+  uAjeno = usuaAjeno;
+  console.log(uAjeno);
+  // if (tipo)
+
+
+
+
+
+
+})
+
 
 
 

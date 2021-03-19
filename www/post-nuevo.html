@@ -76,15 +76,35 @@
         </div>
 
         <div class="subirImagen" hidden>
-          <li>
+          <div class="row">
+            <li class="item-content item-input col">
+              <div class="item-inner">
+                <div class="item-input-wrap ">
+                  <input type="radio" id="edadATP" class="icon-radio" name="edadContenido" value="ATP" checked>
+                  <label for="edadATP">Apto para todo publico</label>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input col">
+              <div class="item-inner">
+                <div class="item-input-wrap ">
+                  <input type="radio" id="edadDieciocho" class="icon-radio" name="edadContenido" value="18">
+                  <label for="edadDieciocho">+18</label>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+          </div>
+          <!-- <li>
             <label class="item-checkbox item-content">
-              <input type="checkbox" id="edadContenido" name="demo-checkbox" value="18" />
+              <input type="checkbox" id="edadContenido" name="demo-checkbox" value="18" checked="checked"/>
               <i class="icon icon-checkbox"></i>
               <div class="item-inner">
                 <div class="item-title">Contenido +18</div>
               </div>
             </label>
-          </li>
+          </li> -->
           <div class="unicoImgArtista">
             <p>Publicar en:</p>
             <div class="row">
