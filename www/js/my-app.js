@@ -60,12 +60,14 @@ var storageRef = storage.ref();
 var colUsuarios = db.collection("usuarios");
 var colPostTexto = db.collection("postsTexto")
 var colPostImagen = db.collection("postImagen")
+var colUsuariosSeguidos = db.collection("usuariosSeguidos");
 
 var email = $$('#emailLogin').val();
 var idUsuario = "";
 
 var tag = $$('#textTag').val();
 var usuaAjeno = "";
+var nombreBusc = "";
 
 
 // Handle Cordova Device Ready Event
@@ -182,7 +184,8 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         var date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' +
+          doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
       });
     })
     .catch((error) => {
@@ -201,7 +204,8 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
             console.log("url: " + url);
             // $$("#fotosubida").attr("src", url);
             var imgUrl = url;
-            $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+            $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' +
+              doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
           }).catch(function(error) {
             console.log("Error: " + error);
           });
@@ -235,8 +239,9 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        var date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+        date = new Date((doc.data().fechaPublicacion).toDate());
+        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' +
+          doc.data().tags + '</p><p>' + date + '</p></div>');
       });
     })
     .catch((error) => {
@@ -248,18 +253,20 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        var date = new Date((doc.data().fechaPublicacion).toDate());
+        date = new Date((doc.data().fechaPublicacion).toDate());
 
         storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
           .then(function(url) {
             console.log("url: " + url);
             // $$("#fotosubida").attr("src", url);
-            var imgUrl = url;
+            imgUrl = url;
 
             if (doc.data().mostrarEn == 'galeria') {
-              $$('#tab1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab1').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
+                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
             } else if (doc.data().mostrarEn == 'general') {
-              $$('#tab2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab2').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
+                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
             }
 
           }).catch(function(error) {
@@ -296,7 +303,8 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
     console.log("tag: " + tag);
     sumarTag = tagArray.push(tag);
     console.log(tagArray);
-    $$('#contenedorTags').append('<div class="chip"><div class="chip-label">#' + tag + '</div><a href="#" class="chip-delete"></a></div>');
+    $$('#contenedorTags').append('<div class="chip"><div class="chip-label">#' +
+      tag + '</div><a href="#" class="chip-delete"></a></div>');
   });
 
   $$('.chip-delete').on('click', borrarTag);
@@ -375,15 +383,22 @@ $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
   console.log("listo!");
 
   app.navbar.hide('#topNavbar');
-  // app.toolbar.show('#botToolbar');
 
   colUsuarios.orderBy('nombreUsuario').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data().nombreUsuario);
-        $$('#resultadosBusqueda').append('<li class="item-content"><div class="item-inner"><div class="item-title"><a href="/perf-ajeno/">'+ doc.data().nombreUsuario +'</a></div></div></li>');
-        usuaAjeno = doc.data().nombreUsuario;
+        $$('#resultadosBusqueda').append('<li class="item-content btnBuscador"><div class="item-inner"><div class="item-title">' +
+          doc.data().nombreUsuario + '</div></div></li>');
+
       });
+
+      $$('.btnBuscador').on('click', function() {
+        nombreBusc = $$(this).text();
+        console.log(nombreBusc);
+
+        mainView.router.navigate('/perf-ajeno/');
+      })
     })
     .catch((error) => {
       console.log("Error getting documents: ", error);
@@ -400,9 +415,6 @@ $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
     }
   });
 
-
-
-
 })
 
 
@@ -413,19 +425,134 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
   console.log("listo!");
 
   app.navbar.hide('#topNavbar');
-  // var tipo = $$('#tipoOculto').val();
-  uAjeno = usuaAjeno;
-  console.log(uAjeno);
-  // if (tipo)
 
+  uAjeno = nombreBusc;
+  console.log(uAjeno);
+
+  $$('#usuarioAjeno').html(uAjeno);
+
+  colUsuarios.where('nombreUsuario', '==', uAjeno).get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        eml = doc.id;
+        tUsuario = doc.data().tipoUsuario;
+        console.log(eml + 'y ' + tUsuario);
+
+        if (tUsuario == 'artista') {
+          $$('#divTabs').prepend('<a href="#tabAjeno1" class="button tab-link tab-link-active">Galeria</a>');
+          $$('#contTabs').prepend('<div id="tabAjeno1" class="tab tab-active"></div>');
+          $$('#tabAjeno2Activo').removeClass('tab-link-active');
+          $$('#tabAjeno2').removeClass('tab-active');
+
+        } else if (tUsuario == 'noArtista') {
+          // nada
+        }
+
+        colPostTexto.where('email', '==', eml).orderBy('fechaPublicacion', 'desc').get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data());
+              date = new Date((doc.data().fechaPublicacion).toDate());
+              $$('#tabAjeno2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' +
+                doc.data().tags + '</p><p>' + date + '</p></div>');
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+
+        colPostImagen.where('email', '==', eml).orderBy('fechaPublicacion', 'desc').get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data());
+              date = new Date((doc.data().fechaPublicacion).toDate());
+
+              if (doc.data().tipeUser == 'artista') {
+                storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+                  .then(function(url) {
+                    console.log("url: " + url);
+                    // $$("#fotosubida").attr("src", url);
+                    imgUrl = url;
+
+                    if (doc.data().mostrarEn == 'galeria') {
+                      $$('#tabAjeno1').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
+                        doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+                    } else if (doc.data().mostrarEn == 'general') {
+                      $$('#tabAjeno2').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
+                        doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+                    }
+
+                  }).catch(function(error) {
+                    console.log("Error: " + error);
+                  });
+              } else if (doc.data().tipeUser == 'noArtista') {
+                // $$('.soloArtista').attr('hidden', true);
+                // $$('#tabAjeno2Activo').addClass('tab-link-active');
+                // $$('#tabAjeno2').addClass('tab-active');
+
+                storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+                  .then(function(url) {
+                    console.log("url: " + url);
+                    // $$("#fotosubida").attr("src", url);
+                    imgUrl = url;
+                    $$('#tabAjeno2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' +
+                      doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+
+                  }).catch(function(error) {
+                    console.log("Error: " + error);
+                  });
+              }
+
+
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+
+      })
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+  $$('#btnSeguir').on('click', function() {
+    email = $$('#idOculto').html();
+    usSeguidos = [];
+    us = uAjeno;
+
+    if ($$('#btnSeguir').hasClass('sinSeguir')) {
+      $$('#btnSeguir').removeClass('sinSeguir');
+      $$('#btnSeguir').addClass('seguido');
+
+      sumarUsuario = usSeguidos.push(us);
+      datos = {
+        nombreUsuariosSeguidos: usSeguidos
+      };
+      colUsuariosSeguidos.doc(email).set(datos);
+      console.log('Usuario seguido');
+
+      $$('#btnSeguir').html('Seguido');
+
+    } else if ($$('#btnSeguir').hasClass('seguido')) {
+      $$('#btnSeguir').removeClass('seguido');
+      $$('#btnSeguir').addClass('sinSeguir');
+
+      var seguidosRef = colUsuariosSeguidos.doc(email);
+      var removeSeguido = seguidosRef.update({
+        usSeguidos: firebase.firestore.FieldValue.delete(us) //REVISAR, NO FUNCIONA
+      });
+    }
+
+
+  })
 
 
 
 
 
 })
-
-
 
 
 

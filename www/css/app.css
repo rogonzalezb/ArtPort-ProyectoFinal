@@ -1,4 +1,15 @@
 /* Your app custom styles here */
+h1 {
+  margin: 0;
+}
+
+.navbar {
+  border-radius: 0 0 15px 15px !important;
+}
+
+.toolbar {
+  border-radius: 15px 15px 0 0 !important;
+}
 
 .iconoToolbar {
   height: 4vh !important;
@@ -8,15 +19,29 @@
   height: 3.5vh !important;
 }
 
-#primeraFoto {
-  width: 90vw;
+.primeraFoto {
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  display: block;
+}
+
+.segundaFoto {
+  width: 100vw;
+  position: absolute;
+  top: 30vh;
+  display: inline;
 }
 
 .block-title {
   margin-top: 20px !important;
 }
 
-.imgPerfil {
+.tituloUsuario {
+  margin-top: 28vh !important;
+}
+
+.imgPost {
   width: 100vw;
 }
 
@@ -26,17 +51,17 @@
 }
 
 .imgTab {
-  width: 98vw;
+  width: 90vw;
 }
 
-/* #perfPNormalPestañas {
+/* #fondoImg {
   background-image: url('../img/fondo-blanco.png');
   background-position: bottom;
   background-size: cover;
   height: 60vh;
 } */
 
-/* #perfPNormal {
+/* #fondoImg {
   background-image: url('../img/hokusai.jpg');
 
   background-position: top;
