@@ -58,16 +58,18 @@ var db = firebase.firestore();
 var storage = firebase.storage();
 var storageRef = storage.ref();
 var colUsuarios = db.collection("usuarios");
-var colPostTexto = db.collection("postsTexto")
-var colPostImagen = db.collection("postImagen")
+var colPostTexto = db.collection("postsTexto");
+var colPostImagen = db.collection("postImagen");
 var colUsuariosSeguidos = db.collection("usuariosSeguidos");
+var colPostMixto = db.collection("postMixto");
 
-var email = $$('#emailLogin').val();
+var email = $$('#idOculto').text();
 var idUsuario = "";
 
 var tag = $$('#textTag').val();
 var usuaAjeno = "";
 var nombreBusc = "";
+var usSeguidos = [];
 
 
 // Handle Cordova Device Ready Event
@@ -100,9 +102,6 @@ $$(document).on('page:init', '.page[data-name="index"]', function(e) {
   $$('#postNuevo').on('click', function() {
     mainView.router.navigate('/post-nuevo/');
   })
-  // $$('#miPerfil').on('click', function() {
-  //   mainView.router.navigate('/perf-personal-normal/');
-  // })
 
   $$('#aIngreso').on('click', function() {
     mainView.router.navigate('/ingresar/');
@@ -140,9 +139,6 @@ $$(document).on('page:init', '.page[data-name="ingresar"]', function(e) {
   console.log(e);
   console.log("listo!");
 
-  // app.navbar.hide('#topNavbar');
-  // app.toolbar.hide('#botToolbar');
-
   $$('#btnIngresar').on('click', fnIngresar);
 
 
@@ -156,13 +152,65 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
   console.log("listo!");
 
   app.navbar.show('#topNavbar');
+  email = $$('#idOculto').text();
 
+  colUsuariosSeguidos.doc(email).get()
+    .then((doc) => {
+      ar = doc.data().nombreUsuariosSeguidos;
+      for (var i = 0; i < ar.length; i++) {
+        usuAr = ar[i];
 
+        colUsuarios.where('nombreUsuario', '==', usuAr).get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              usuArEmail = doc.id;
 
+              colPostMixto.where('email', '==', usuArEmail).orderBy('fechaPublicacion', 'desc').get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                    var date = new Date((doc.data().fechaPublicacion).toDate());
 
+                    if (doc.data().tipoPost == 'texto') {
+                      $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img src="' +
+                        'img/028-user-1.png" width="34" height="34" /></div><div class="demo-facebook-name">' + usuAr +
+                        '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                        '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
+                    } else if (doc.data().tipoPost == 'imagen') {
+                      storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+                        .then(function(url) {
+                          console.log("url: " + url);
+                          imgUrl = url;
 
+                          $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img src="' +
+                            'img/028-user-1.png" width="34" height="34" /></div><div class="demo-facebook-name">' + usuAr +
+                            '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+                            doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+
+                        })
+                        .catch(function(error) {
+                          console.log("Error: " + error);
+                        })
+                    }
+
+                  })
+                  // .catch((error) => {
+                  //   console.log("Error getting documents: ", error);
+                  // })
+                })
+                .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                })
+            })
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          })
+      }
+    })
 })
+
+
 
 
 //------------------------------PERFIL PERSONAL NORMAL-----------------------------------------
@@ -174,7 +222,6 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
   app.navbar.hide('#topNavbar');
 
   idUsuario = $$('#idOculto').html();
-  // emailOculto = $$('#tipoOculto').html();
   console.log(idUsuario);
 
   fnTomarDatosPerfilNor();
@@ -235,6 +282,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
   fnTomarDatosPerfilArt();
 
+
   colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -258,7 +306,6 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
         storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
           .then(function(url) {
             console.log("url: " + url);
-            // $$("#fotosubida").attr("src", url);
             imgUrl = url;
 
             if (doc.data().mostrarEn == 'galeria') {
@@ -327,6 +374,15 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
         tags: tArray,
         fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
       })
+      colPostMixto.add({
+        tipoPost: 'texto',
+        tipeUser: tipeOculto,
+        email: emailOculto,
+        titulo: titText,
+        descripcion: descText,
+        tags: tArray,
+        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
+      })
 
       mainView.router.navigate('/inicio/');
 
@@ -366,6 +422,18 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
         mostrarEn: dondeMostrar,
         fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
       })
+      colPostMixto.add({
+        tipoPost: 'imagen',
+        archivo: archivoPath,
+        tipeUser: tipeOculto,
+        email: emailOculto,
+        titulo: titText,
+        descripcion: descText,
+        tags: tArray,
+        rating: edadContenido,
+        mostrarEn: dondeMostrar,
+        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
+      })
 
       mainView.router.navigate('/inicio/');
 
@@ -390,7 +458,6 @@ $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
         console.log(doc.id, " => ", doc.data().nombreUsuario);
         $$('#resultadosBusqueda').append('<li class="item-content btnBuscador"><div class="item-inner"><div class="item-title">' +
           doc.data().nombreUsuario + '</div></div></li>');
-
       });
 
       $$('.btnBuscador').on('click', function() {
@@ -488,10 +555,6 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
                     console.log("Error: " + error);
                   });
               } else if (doc.data().tipeUser == 'noArtista') {
-                // $$('.soloArtista').attr('hidden', true);
-                // $$('#tabAjeno2Activo').addClass('tab-link-active');
-                // $$('#tabAjeno2').addClass('tab-active');
-
                 storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
                   .then(function(url) {
                     console.log("url: " + url);
@@ -505,13 +568,11 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
                   });
               }
 
-
             });
           })
           .catch((error) => {
             console.log("Error getting documents: ", error);
           });
-
 
       })
     }).catch((error) => {
@@ -540,31 +601,30 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
 
   $$('#btnSeguir').on('click', function() {
     email = $$('#idOculto').html();
-    // usSeguidos = array;
     us = uAjeno;
 
     colUsuariosSeguidos.doc(email).get()
       .then((doc) => {
-        array = doc.data().nombreUsuariosSeguidos;
-        console.log(array);
 
         if ($$('#btnSeguir').hasClass('sinSeguir')) {
           $$('#btnSeguir').removeClass('sinSeguir').addClass('seguido');
           $$('#imgBtnSeguir').attr('src', 'img/018-remove-user.png');
-          usSeguidos = array;
-          usSeguidos.push(us);
+          // array = doc.data().nombreUsuariosSeguidos;
+          // console.log(array);
+          array = usSeguidos;
+          console.log(array);
+          array.push(us);
           datos = {
-            nombreUsuariosSeguidos: usSeguidos
+            nombreUsuariosSeguidos: array
           };
           colUsuariosSeguidos.doc(email).set(datos);
           console.log('Usuario seguido');
 
-
         } else if ($$('#btnSeguir').hasClass('seguido')) {
           $$('#btnSeguir').removeClass('seguido').addClass('sinSeguir');
+          $$('#imgBtnSeguir').attr('src', 'img/019-add-user.png');
 
           for (var i = 0; i < arr.length; i++) {
-
             if (arr[i] === us) {
               arr.splice(i, 1);
               i--;
@@ -581,17 +641,12 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
               console.error("Error updating document: ", error);
             });
 
-          $$('#imgBtnSeguir').attr('src', 'img/019-add-user.png');
-
           console.log('Usuario dejado de seguir');
-
         }
 
       }).catch((error) => {
         console.log("Error getting documents: ", error);
       });
-
-
 
   });
 
@@ -635,10 +690,17 @@ function fnRegistrar() {
         var tipoUsuario = $$('#artista').val();
       }
 
+      var archivo = document.getElementById("imgRegistro").files[0];
+      storage.ref(rEmail + '/' + archivo.name).put(archivo);
+      console.log(archivo.name);
+      var archivoPath = (rEmail + '/' + archivo.name);
+      console.log(archivoPath);
+
       datos = {
         nombreUsuario: rUsua,
         tipoUsuario: tipoUsuario,
-        fecha: rFec
+        fecha: rFec,
+        icono: archivoPath
       };
       colUsuarios.doc(rEmail).set(datos);
       console.log('Usuario creado');
@@ -751,8 +813,18 @@ function fnTomarDatosPerfilArt() {
       console.log('documento existe');
 
       miUsuario = doc.data().nombreUsuario;
+      miImagen = doc.data().icono;
       console.log('Mi usuario: ' + miUsuario);
       $$('#miUsuarioArtista').html(miUsuario);
+
+      storage.ref().child(miImagen).getDownloadURL()
+        .then(function(url) {
+          console.log("url: " + url);
+          imgUrl = url;
+          $$('#icono').attr('src', url);
+        }).catch(function(error) {
+          console.log("Error: " + error);
+        });
 
     }
   }).catch((error) => {
