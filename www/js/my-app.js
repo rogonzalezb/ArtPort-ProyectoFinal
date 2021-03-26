@@ -427,6 +427,7 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
   app.navbar.hide('#topNavbar');
 
   uAjeno = nombreBusc;
+  email = $$('#idOculto').html();
   console.log(uAjeno);
 
   $$('#usuarioAjeno').html(uAjeno);
@@ -517,42 +518,91 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
       console.log("Error getting documents: ", error);
     });
 
+
+  colUsuariosSeguidos.doc(email).get()
+    .then((doc) => {
+      arr = doc.data().nombreUsuariosSeguidos;
+      console.log(arr);
+      u = uAjeno;
+      console.log(u);
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == u) {
+          $$('#btnSeguir').addClass('seguido').removeClass('sinSeguir');
+          $$('#imgBtnSeguir').attr('src', 'img/018-remove-user.png');
+        } else {
+          //nada
+        }
+      }
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
   $$('#btnSeguir').on('click', function() {
     email = $$('#idOculto').html();
-    usSeguidos = [];
+    // usSeguidos = array;
     us = uAjeno;
 
-    if ($$('#btnSeguir').hasClass('sinSeguir')) {
-      $$('#btnSeguir').removeClass('sinSeguir');
-      $$('#btnSeguir').addClass('seguido');
+    colUsuariosSeguidos.doc(email).get()
+      .then((doc) => {
+        array = doc.data().nombreUsuariosSeguidos;
+        console.log(array);
 
-      sumarUsuario = usSeguidos.push(us);
-      datos = {
-        nombreUsuariosSeguidos: usSeguidos
-      };
-      colUsuariosSeguidos.doc(email).set(datos);
-      console.log('Usuario seguido');
+        if ($$('#btnSeguir').hasClass('sinSeguir')) {
+          $$('#btnSeguir').removeClass('sinSeguir').addClass('seguido');
+          $$('#imgBtnSeguir').attr('src', 'img/018-remove-user.png');
+          usSeguidos = array;
+          usSeguidos.push(us);
+          datos = {
+            nombreUsuariosSeguidos: usSeguidos
+          };
+          colUsuariosSeguidos.doc(email).set(datos);
+          console.log('Usuario seguido');
 
-      $$('#btnSeguir').html('Seguido');
 
-    } else if ($$('#btnSeguir').hasClass('seguido')) {
-      $$('#btnSeguir').removeClass('seguido');
-      $$('#btnSeguir').addClass('sinSeguir');
+        } else if ($$('#btnSeguir').hasClass('seguido')) {
+          $$('#btnSeguir').removeClass('seguido').addClass('sinSeguir');
 
-      var seguidosRef = colUsuariosSeguidos.doc(email);
-      var removeSeguido = seguidosRef.update({
-        usSeguidos: firebase.firestore.FieldValue.delete(us) //REVISAR, NO FUNCIONA
+          for (var i = 0; i < arr.length; i++) {
+
+            if (arr[i] === us) {
+              arr.splice(i, 1);
+              i--;
+            }
+          }
+          console.log(arr);
+          return colUsuariosSeguidos.doc(email).update({
+              nombreUsuariosSeguidos: arr
+            })
+            .then(() => {
+              console.log("Document successfully updated!");
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+
+          $$('#imgBtnSeguir').attr('src', 'img/019-add-user.png');
+
+          console.log('Usuario dejado de seguir');
+
+        }
+
+      }).catch((error) => {
+        console.log("Error getting documents: ", error);
       });
-    }
 
 
-  })
 
-
+  });
 
 
 
 })
+
+
+
+
+
 
 
 

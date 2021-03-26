@@ -54,6 +54,23 @@ h1 {
   width: 90vw;
 }
 
+.card {
+  border: 1px solid #dddd;
+}
+
+#block-editado {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-top: 0 !important;
+}
+
+#block-editado2 {
+  margin-bottom: 0 !important;
+}
+
+
+
+
 /* #fondoImg {
   background-image: url('../img/fondo-blanco.png');
   background-position: bottom;
@@ -68,8 +85,13 @@ h1 {
   background-size: contain 50vh;
 } */
 
-
-
+:root {
+  --f7-card-margin-horizontal: 0;
+  --f7-card-margin-vertical: 8px;
+  --f7-card-bg-color: #fff;
+  /* --f7-card-outline-border-color: #dddd; */
+  /* --f7-card-outline-border-color: rgba(0, 0, 0, 0.12); */
+}
 
 /* poppins-regular - latin */
 @font-face {
