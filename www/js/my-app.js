@@ -137,7 +137,7 @@ $$(document).on('page:init', '.page[data-name="registro"]', function(e) {
 })
 
 
-//-----------------------------------INGRESAR----------------------------------------------
+//-------------------------------------------------------INGRESAR----------------------------------------------
 $$(document).on('page:init', '.page[data-name="ingresar"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -149,7 +149,7 @@ $$(document).on('page:init', '.page[data-name="ingresar"]', function(e) {
 })
 
 
-//-----------------------------------INICIO----------------------------------------------
+//----------------------------------------------------------INICIO----------------------------------------------
 $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -188,7 +188,7 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
 
                     $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
                       doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                      '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                      '</div></div><div class="card-content"><h3>' + doc.data().titulo +
                       '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
               } else if (doc.data().tipoPost == 'imagen') {
@@ -200,7 +200,7 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
 
                     $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
                       doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                      '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+                      '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
                       doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
                   })
@@ -226,7 +226,7 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
 
 
 
-//------------------------------PERFIL PERSONAL NORMAL-----------------------------------------
+//----------------------------------------------------PERFIL PERSONAL NORMAL-----------------------------------------
 $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -290,7 +290,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 })
 
 
-//------------------------------PERFIL PERSONAL ARTISTA-----------------------------------------
+//--------------------------------------------------PERFIL PERSONAL ARTISTA-----------------------------------------
 $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -332,10 +332,12 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
             imgUrl = url;
 
             if (doc.data().mostrarEn == 'galeria') {
-              $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-              + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
-                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+              // $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+              // + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+              //   '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+              //   doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+              $$('#contenidoTab').append('<div class="contGaleria column"><img class="imgGaleria" src="' + imgUrl + '"/></div>');
+
             } else if (doc.data().mostrarEn == 'general') {
               $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
               + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +

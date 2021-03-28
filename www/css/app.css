@@ -1,8 +1,6 @@
 /* Your app custom styles here */
-h1 {
-  margin: 0;
-}
 
+/*------------------- INICIO -----------------*/
 .navbar {
   border-radius: 0 0 15px 15px !important;
 }
@@ -13,10 +11,16 @@ h1 {
 
 .iconoToolbar {
   height: 4vh !important;
+  width: 4vh !important;
 }
 
 .iconoNavbar {
   height: 3.5vh !important;
+}
+
+/*------------------- PERFIL -----------------*/
+h1 {
+  margin: 0;
 }
 
 .primeraFoto {
@@ -50,26 +54,70 @@ h1 {
   margin-bottom: 10px !important;
 }
 
+#tab1 {
+  text-align: center;
+}
+
 .imgTab {
   width: 90vw;
 }
 
-.card {
-  border: 1px solid #dddd;
+.tab-link {
+  border-radius: 5px 5px 0 0 !important;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
-#block-editado {
+.card {
+  border: 1px solid #dddd;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 0 !important;
+}
+
+.contTab1 {
+  border: 1px solid #dddd;
+  border-radius: 0 0 5px 5px;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  /* padding: 0 4px; */
+  width: 95vw;
+
+}
+
+.contGaleria {
+  flex: 50% !important;
+  max-width: 50% !important;
+  /* padding: 0 4px; */
+}
+
+.imgGaleria {
+  border-radius: 5px;
+  margin-top: 8px;
+  vertical-align: middle !important;
+  width: 100% !important;
+
+}
+
+
+.block-editado {
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-top: 0 !important;
 }
 
-#block-editado2 {
+.block-editado2 {
   margin-bottom: 0 !important;
 }
 
 #imgMiPerfil {
   border-radius: 50%;
+}
+
+.iconito {
+  border-radius: 50%;
+  height: 4vh;
+  width: 4vh;
 }
 
 
@@ -93,6 +141,7 @@ h1 {
   --f7-card-margin-horizontal: 0;
   --f7-card-margin-vertical: 8px;
   --f7-card-bg-color: #fff;
+  /* --f7-grid-gap: 0; */
   /* --f7-card-outline-border-color: #dddd; */
   /* --f7-card-outline-border-color: rgba(0, 0, 0, 0.12); */
 }
