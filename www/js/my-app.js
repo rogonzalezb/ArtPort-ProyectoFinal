@@ -70,6 +70,10 @@ var tag = $$('#textTag').val();
 var usuaAjeno = "";
 var nombreBusc = "";
 var usSeguidos = [];
+var iconoAjeno = "";
+var imgUrl = "";
+var miIcono = "";
+var iconoAj = "";
 
 
 // Handle Cordova Device Ready Event
@@ -154,60 +158,69 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
   app.navbar.show('#topNavbar');
   email = $$('#idOculto').text();
 
+  colUsuarios.doc(email).get()
+    .then((doc) => {
+      storage.ref().child(doc.data().icono).getDownloadURL()
+        .then(function(url) {
+          console.log("url: " + url);
+          $$('#imgMiPerfil').attr('src', url);
+        }).catch((error) => {
+          console.log("Error getting documents: ", error);
+        })
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    })
+
   colUsuariosSeguidos.doc(email).get()
     .then((doc) => {
+      console.log(email);
       ar = doc.data().nombreUsuariosSeguidos;
       for (var i = 0; i < ar.length; i++) {
         usuAr = ar[i];
 
-        colUsuarios.where('nombreUsuario', '==', usuAr).get()
+        colPostMixto.where('usuario', '==', usuAr).orderBy('fechaPublicacion', 'desc').get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-              usuArEmail = doc.id;
 
-              colPostMixto.where('email', '==', usuArEmail).orderBy('fechaPublicacion', 'desc').get()
-                .then((querySnapshot) => {
-                  querySnapshot.forEach((doc) => {
-                    var date = new Date((doc.data().fechaPublicacion).toDate());
+              if (doc.data().tipoPost == 'texto') {
+                date = new Date((doc.data().fechaPublicacion).toDate());
+                console.log(doc.data().miIcono);
 
-                    if (doc.data().tipoPost == 'texto') {
-                      $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img src="' +
-                        'img/028-user-1.png" width="34" height="34" /></div><div class="demo-facebook-name">' + usuAr +
-                        '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
-                        '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+                    $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                      doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                      '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                      '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
-                    } else if (doc.data().tipoPost == 'imagen') {
-                      storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
-                        .then(function(url) {
-                          console.log("url: " + url);
-                          imgUrl = url;
+              } else if (doc.data().tipoPost == 'imagen') {
+                date = new Date((doc.data().fechaPublicacion).toDate());
+                storage.ref().child(doc.data().archivo).getDownloadURL()
+                  .then(function(url) {
+                    console.log("url: " + url);
+                    imgUrl = url;
 
-                          $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img src="' +
-                            'img/028-user-1.png" width="34" height="34" /></div><div class="demo-facebook-name">' + usuAr +
-                            '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
-                            doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
-
-                        })
-                        .catch(function(error) {
-                          console.log("Error: " + error);
-                        })
-                    }
+                    $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                      doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                      '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+                      doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
                   })
-                  // .catch((error) => {
-                  //   console.log("Error getting documents: ", error);
-                  // })
-                })
-                .catch((error) => {
-                  console.log("Error getting documents: ", error);
-                })
+                  .catch(function(error) {
+                    console.log("Error: " + error);
+                  })
+              }
             })
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
+          }).catch(function(error) {
+            console.log("Error: " + error);
           })
       }
+    }).catch(function(error) {
+      console.log("Error: " + error);
     })
+
+
+
+
+
 })
 
 
@@ -226,13 +239,18 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 
   fnTomarDatosPerfilNor();
 
+
+
   colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        var date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab-1').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' +
-          doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+        date = new Date((doc.data().fechaPublicacion).toDate());
+
+        $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+        + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+          '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
     })
     .catch((error) => {
@@ -244,15 +262,18 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        var date = new Date((doc.data().fechaPublicacion).toDate());
+        date = new Date((doc.data().fechaPublicacion).toDate());
 
-        storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+        storage.ref().child(doc.data().archivo).getDownloadURL()
           .then(function(url) {
             console.log("url: " + url);
-            // $$("#fotosubida").attr("src", url);
-            var imgUrl = url;
-            $$('#tab-1').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' +
-              doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+            imgUrl = url;
+
+            $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+            + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+              '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+              doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+
           }).catch(function(error) {
             console.log("Error: " + error);
           });
@@ -288,8 +309,10 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' +
-          doc.data().tags + '</p><p>' + date + '</p></div>');
+        $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+        + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+          '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
     })
     .catch((error) => {
@@ -309,11 +332,15 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
             imgUrl = url;
 
             if (doc.data().mostrarEn == 'galeria') {
-              $$('#tab1').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
-                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+              + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
             } else if (doc.data().mostrarEn == 'general') {
-              $$('#tab2').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
-                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+              + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
             }
 
           }).catch(function(error) {
@@ -346,7 +373,7 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   var tagArray = [];
 
   $$('#agregarTag').on('click', function() {
-    var tag = $$('#textTag').val();
+    tag = $$('#textTag').val();
     console.log("tag: " + tag);
     sumarTag = tagArray.push(tag);
     console.log(tagArray);
@@ -357,89 +384,113 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   $$('.chip-delete').on('click', borrarTag);
 
   $$('#btnPublicar').on('click', function() {
-    var titText = $$('#tituloText').val();
-    var descText = $$('#descripText').val();
-    var emailOculto = $$('#idOculto').html();
-    var tipeOculto = $$('#tipoOculto').html();
-    var tArray = tagArray;
+    nombOculto = $$('#nombreOculto').html();
+    titText = $$('#tituloText').val();
+    descText = $$('#descripText').val();
+    emailOculto = $$('#idOculto').html();
+    tipeOculto = $$('#tipoOculto').html();
+    tArray = tagArray;
+    tiempoPublicacion = firebase.firestore.FieldValue.serverTimestamp();
     console.log(titText + ", " + descText + ", " + tArray);
 
-    if ($$('#nuevoTexto').prop("checked")) {
+    colUsuarios.doc(emailOculto).get()
+      .then((doc) => {
+        storage.ref().child(doc.data().icono).getDownloadURL()
+          .then(function(url) {
+            console.log("url: " + url);
+            miIcono = url;
 
-      colPostTexto.add({
-        tipeUser: tipeOculto,
-        email: emailOculto,
-        titulo: titText,
-        descripcion: descText,
-        tags: tArray,
-        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
+            if ($$('#nuevoTexto').prop("checked")) {
+
+              colPostTexto.add({
+                usuario: nombOculto,
+                tipeUser: tipeOculto,
+                email: emailOculto,
+                titulo: titText,
+                descripcion: descText,
+                tags: tArray,
+                fechaPublicacion: tiempoPublicacion,
+                miIcono: miIcono,
+              })
+              colPostMixto.add({
+                usuario: nombOculto,
+                tipoPost: 'texto',
+                tipeUser: tipeOculto,
+                email: emailOculto,
+                titulo: titText,
+                descripcion: descText,
+                tags: tArray,
+                fechaPublicacion: tiempoPublicacion,
+                miIcono: miIcono,
+              })
+
+              mainView.router.navigate('/inicio/');
+
+            } else if ($$('#nuevaImg').prop("checked")) {
+              archivo = document.getElementById("file").files[0];
+
+              storage.ref(emailOculto + '/' + archivo.name).put(archivo);
+              console.log(archivo.name);
+
+              archivoPath = (emailOculto + '/' + archivo.name);
+              console.log(archivoPath);
+
+              if ($$('#edadATP').prop("checked")) {
+                var edadContenido = $$('#edadATP').val();
+                console.log(edadContenido);
+              } else if ($$('#edadDieciocho').prop("checked")) {
+                var edadContenido = $$('#edadDieciocho').val();
+                console.log(edadContenido);
+              }
+
+              if ($$('#postGaleria').prop("checked")) {
+                var dondeMostrar = $$('#postGaleria').val();
+                console.log(dondeMostrar);
+              } else if ($$('#postGeneral').prop("checked")) {
+                var dondeMostrar = $$('#postGeneral').val();
+                console.log(dondeMostrar);
+              }
+
+              colPostImagen.add({
+                usuario: nombOculto,
+                archivo: archivoPath,
+                tipeUser: tipeOculto,
+                email: emailOculto,
+                titulo: titText,
+                descripcion: descText,
+                tags: tArray,
+                rating: edadContenido,
+                mostrarEn: dondeMostrar,
+                fechaPublicacion: tiempoPublicacion,
+                miIcono: miIcono,
+              })
+              colPostMixto.add({
+                usuario: nombOculto,
+                tipoPost: 'imagen',
+                archivo: archivoPath,
+                tipeUser: tipeOculto,
+                email: emailOculto,
+                titulo: titText,
+                descripcion: descText,
+                tags: tArray,
+                rating: edadContenido,
+                mostrarEn: dondeMostrar,
+                fechaPublicacion: tiempoPublicacion,
+                miIcono: miIcono,
+              })
+
+              mainView.router.navigate('/inicio/');
+
+            };
+
+          }).catch(function(error) {
+            console.log("Error: " + error);
+          })
+      }).catch(function(error) {
+        console.log("Error: " + error);
       })
-      colPostMixto.add({
-        tipoPost: 'texto',
-        tipeUser: tipeOculto,
-        email: emailOculto,
-        titulo: titText,
-        descripcion: descText,
-        tags: tArray,
-        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
-      })
 
-      mainView.router.navigate('/inicio/');
-
-    } else if ($$('#nuevaImg').prop("checked")) {
-      var archivo = document.getElementById("file").files[0];
-
-      storage.ref(emailOculto + '/' + archivo.name).put(archivo);
-      console.log(archivo.name);
-
-      var archivoPath = (emailOculto + '/' + archivo.name);
-      console.log(archivoPath);
-
-      if ($$('#edadATP').prop("checked")) {
-        var edadContenido = $$('#edadATP').val();
-        console.log(edadContenido);
-      } else if ($$('#edadDieciocho').prop("checked")) {
-        var edadContenido = $$('#edadDieciocho').val();
-        console.log(edadContenido);
-      }
-
-      if ($$('#postGaleria').prop("checked")) {
-        var dondeMostrar = $$('#postGaleria').val();
-        console.log(dondeMostrar);
-      } else if ($$('#postGeneral').prop("checked")) {
-        var dondeMostrar = $$('#postGeneral').val();
-        console.log(dondeMostrar);
-      }
-
-      colPostImagen.add({
-        archivo: archivoPath,
-        tipeUser: tipeOculto,
-        email: emailOculto,
-        titulo: titText,
-        descripcion: descText,
-        tags: tArray,
-        rating: edadContenido,
-        mostrarEn: dondeMostrar,
-        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      colPostMixto.add({
-        tipoPost: 'imagen',
-        archivo: archivoPath,
-        tipeUser: tipeOculto,
-        email: emailOculto,
-        titulo: titText,
-        descripcion: descText,
-        tags: tArray,
-        rating: edadContenido,
-        mostrarEn: dondeMostrar,
-        fechaPublicacion: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-
-      mainView.router.navigate('/inicio/');
-
-    };
-
-  })
+    })
 
 });
 
@@ -690,10 +741,10 @@ function fnRegistrar() {
         var tipoUsuario = $$('#artista').val();
       }
 
-      var archivo = document.getElementById("imgRegistro").files[0];
+      archivo = document.getElementById("imgRegistro").files[0];
       storage.ref(rEmail + '/' + archivo.name).put(archivo);
       console.log(archivo.name);
-      var archivoPath = (rEmail + '/' + archivo.name);
+      archivoPath = (rEmail + '/' + archivo.name);
       console.log(archivoPath);
 
       datos = {
@@ -765,6 +816,7 @@ function fnIngresar() {
 
             $$('#idOculto').html(email);
             $$('#tipoOculto').html(dbTipoUsuario);
+            $$('#nombreOculto').html(miNombre);
 
             fnMiPerfilArtista();
 
@@ -776,6 +828,7 @@ function fnIngresar() {
 
             $$('#idOculto').html(email);
             $$('#tipoOculto').html(dbTipoUsuario);
+            $$('#nombreOculto').html(miNombre);
 
             fnMiPerfilNormal();
 
@@ -821,7 +874,7 @@ function fnTomarDatosPerfilArt() {
         .then(function(url) {
           console.log("url: " + url);
           imgUrl = url;
-          $$('#icono').attr('src', url);
+          $$('#iconoArt').attr('src', url);
         }).catch(function(error) {
           console.log("Error: " + error);
         });
@@ -842,8 +895,18 @@ function fnTomarDatosPerfilNor() {
       console.log('documento existe');
 
       miUsuario = doc.data().nombreUsuario;
+      miImagen = doc.data().icono;
       console.log('Mi usuario: ' + miUsuario);
       $$('#miUsuarioNormal').html(miUsuario);
+
+      storage.ref().child(miImagen).getDownloadURL()
+        .then(function(url) {
+          console.log("url: " + url);
+          imgUrl = url;
+          $$('#iconoNor').attr('src', url);
+        }).catch(function(error) {
+          console.log("Error: " + error);
+        });
 
     }
   }).catch((error) => {
