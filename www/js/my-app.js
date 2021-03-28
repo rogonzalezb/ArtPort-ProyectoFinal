@@ -46,8 +46,20 @@ var app = new Framework7({
       url: 'buscar.html',
     },
     {
-      path: '/perf-ajeno/',
-      url: 'perf-ajeno.html',
+      path: '/perf-ajeno-normal/',
+      url: 'perf-ajeno-normal.html',
+    },
+    {
+      path: '/perf-ajeno-artista/',
+      url: 'perf-ajeno-artista.html',
+    },
+    {
+      path: '/editar-artista/',
+      url: 'editar-artista.html',
+    },
+    {
+      path: '/editar-normal/',
+      url: 'editar-normal.html',
     },
   ]
   // ... other parameters
@@ -74,6 +86,7 @@ var iconoAjeno = "";
 var imgUrl = "";
 var miIcono = "";
 var iconoAj = "";
+var tiUs = "";
 
 
 // Handle Cordova Device Ready Event
@@ -186,10 +199,10 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
                 date = new Date((doc.data().fechaPublicacion).toDate());
                 console.log(doc.data().miIcono);
 
-                    $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-                      doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                      '</div></div><div class="card-content"><h3>' + doc.data().titulo +
-                      '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+                $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                  doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                  '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                  '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
               } else if (doc.data().tipoPost == 'imagen') {
                 date = new Date((doc.data().fechaPublicacion).toDate());
@@ -199,9 +212,9 @@ $$(document).on('page:init', '.page[data-name="inicio"]', function(e) {
                     imgUrl = url;
 
                     $$('#inicioContenido').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-                      doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                      '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
-                      doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+                      doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                      '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+                      doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
                   })
                   .catch(function(error) {
@@ -247,8 +260,8 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
         console.log(doc.id, " => ", doc.data());
         date = new Date((doc.data().fechaPublicacion).toDate());
 
-        $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-        + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+        $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+          doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
           '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
           '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
@@ -269,10 +282,10 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
             console.log("url: " + url);
             imgUrl = url;
 
-            $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-            + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-              '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
-              doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+            $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+              doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+              '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+              doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
           }).catch(function(error) {
             console.log("Error: " + error);
@@ -298,6 +311,10 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
   app.navbar.hide('#topNavbar');
 
+  $$('#btnEditarArt').on('click', function() {
+    mainView.router.navigate('/editar-artista/');
+  })
+
   idUsuario = $$('#idOculto').html();
   console.log('mi email: ' + idUsuario);
 
@@ -309,10 +326,10 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-        + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
-          '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+        $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+          doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h4>' + doc.data().titulo +
+          '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
     })
     .catch((error) => {
@@ -339,10 +356,10 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
               $$('#contenidoTab').append('<div class="contGaleria column"><img class="imgGaleria" src="' + imgUrl + '"/></div>');
 
             } else if (doc.data().mostrarEn == 'general') {
-              $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-              + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
-                doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+              $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+                doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
             }
 
           }).catch(function(error) {
@@ -360,7 +377,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
 
 
-//------------------------------------POST NUEVO-----------------------------------------
+//-----------------------------------------------------------POST NUEVO-----------------------------------------
 $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -492,12 +509,12 @@ $$(document).on('page:init', '.page[data-name="post-nuevo"]', function(e) {
         console.log("Error: " + error);
       })
 
-    })
+  })
 
 });
 
 
-// ----------------------------------BUSCAR------------------------------------------
+// ----------------------------------------------------------------BUSCAR------------------------------------------
 $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
@@ -517,7 +534,21 @@ $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
         nombreBusc = $$(this).text();
         console.log(nombreBusc);
 
-        mainView.router.navigate('/perf-ajeno/');
+        colUsuarios.where("nombreUsuario", "==", nombreBusc).get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              tiUs = doc.data().tipoUsuario;
+
+              if (tiUs == "artista") {
+                mainView.router.navigate('/perf-ajeno-artista/');
+              } else if (tiUs == "noArtista") {
+                mainView.router.navigate('/perf-ajeno-normal/');
+              }
+            })
+          }).catch((error) => {
+            console.log("Error: ", error);
+          });
+
       })
     })
     .catch((error) => {
@@ -538,8 +569,8 @@ $$(document).on('page:init', '.page[data-name="buscar"]', function(e) {
 })
 
 
-//-----------------------------------PERFIL AJENO----------------------------------------------
-$$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
+//-------------------------------------------------------PERFIL AJENO ARTISTA----------------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-ajeno-artista"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
   console.log("listo!");
@@ -550,7 +581,7 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
   email = $$('#idOculto').html();
   console.log(uAjeno);
 
-  $$('#usuarioAjeno').html(uAjeno);
+  $$('#usAjenoArtista').html(uAjeno);
 
   colUsuarios.where('nombreUsuario', '==', uAjeno).get()
     .then((querySnapshot) => {
@@ -559,23 +590,22 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
         tUsuario = doc.data().tipoUsuario;
         console.log(eml + 'y ' + tUsuario);
 
-        if (tUsuario == 'artista') {
-          $$('#divTabs').prepend('<a href="#tabAjeno1" class="button tab-link tab-link-active">Galeria</a>');
-          $$('#contTabs').prepend('<div id="tabAjeno1" class="tab tab-active"></div>');
-          $$('#tabAjeno2Activo').removeClass('tab-link-active');
-          $$('#tabAjeno2').removeClass('tab-active');
+        storage.ref().child(doc.data().icono).getDownloadURL() //pongo la ruta de la imagen en el storage
+          .then(function(url) {
+            console.log("url: " + url);
+            $$('#iconoAjArt').attr('src', url);
 
-        } else if (tUsuario == 'noArtista') {
-          // nada
-        }
-
+          })
+        console.log("sigo aca");
         colPostTexto.where('email', '==', eml).orderBy('fechaPublicacion', 'desc').get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
               console.log(doc.id, " => ", doc.data());
               date = new Date((doc.data().fechaPublicacion).toDate());
-              $$('#tabAjeno2').append('<div class=""><h3>' + doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' +
-                doc.data().tags + '</p><p>' + date + '</p></div>');
+              $$('#tabAjAr2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                doc.data().miIcono + '" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
             });
           })
           .catch((error) => {
@@ -589,37 +619,28 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
               console.log(doc.id, " => ", doc.data());
               date = new Date((doc.data().fechaPublicacion).toDate());
 
-              if (doc.data().tipeUser == 'artista') {
-                storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
-                  .then(function(url) {
-                    console.log("url: " + url);
-                    // $$("#fotosubida").attr("src", url);
-                    imgUrl = url;
+              storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
+                .then(function(url) {
+                  console.log("url: " + url);
+                  imgUrl = url;
 
-                    if (doc.data().mostrarEn == 'galeria') {
-                      $$('#tabAjeno1').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
-                        doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
-                    } else if (doc.data().mostrarEn == 'general') {
-                      $$('#tabAjeno2').append('<div class="imgTab"><img style="width:90vw" src="' + imgUrl + '"><h3>' +
-                        doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
-                    }
+                  if (doc.data().mostrarEn == 'galeria') {
+                    // $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
+                    // + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                    //   '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
+                    //   doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+                    $$('#contenidoTabAjAr').append('<div class="contGaleria column"><img class="imgGaleria" src="' + imgUrl + '"/></div>');
 
-                  }).catch(function(error) {
-                    console.log("Error: " + error);
-                  });
-              } else if (doc.data().tipeUser == 'noArtista') {
-                storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
-                  .then(function(url) {
-                    console.log("url: " + url);
-                    // $$("#fotosubida").attr("src", url);
-                    imgUrl = url;
-                    $$('#tabAjeno2').append('<div class="imgTab"><img style="width:98vw" src="' + imgUrl + '"><h3>' +
-                      doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p><p>' + doc.data().tags + '</p><p>' + date + '</p></div>');
+                  } else if (doc.data().mostrarEn == 'general') {
+                    $$('#tabAjAr2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                      doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                      '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+                      doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+                  }
 
-                  }).catch(function(error) {
-                    console.log("Error: " + error);
-                  });
-              }
+                }).catch(function(error) {
+                  console.log("Error: " + error);
+                });
 
             });
           })
@@ -641,8 +662,8 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
       console.log(u);
       for (var i = 0; i < arr.length; i++) {
         if (arr[i] == u) {
-          $$('#btnSeguir').addClass('seguido').removeClass('sinSeguir');
-          $$('#imgBtnSeguir').attr('src', 'img/018-remove-user.png');
+          $$('#btnSeguirArt').addClass('seguido').removeClass('sinSeguir');
+          $$('#imgBtnSeguirArt').attr('src', 'img/018-remove-user.png');
         } else {
           //nada
         }
@@ -652,16 +673,16 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
     });
 
 
-  $$('#btnSeguir').on('click', function() {
+  $$('#btnSeguirArt').on('click', function() {
     email = $$('#idOculto').html();
     us = uAjeno;
 
     colUsuariosSeguidos.doc(email).get()
       .then((doc) => {
 
-        if ($$('#btnSeguir').hasClass('sinSeguir')) {
-          $$('#btnSeguir').removeClass('sinSeguir').addClass('seguido');
-          $$('#imgBtnSeguir').attr('src', 'img/018-remove-user.png');
+        if ($$('#btnSeguirArt').hasClass('sinSeguir')) {
+          $$('#btnSeguirArt').removeClass('sinSeguir').addClass('seguido');
+          $$('#imgBtnSeguirArt').attr('src', 'img/018-remove-user.png');
           // array = doc.data().nombreUsuariosSeguidos;
           // console.log(array);
           array = usSeguidos;
@@ -673,9 +694,159 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
           colUsuariosSeguidos.doc(email).set(datos);
           console.log('Usuario seguido');
 
-        } else if ($$('#btnSeguir').hasClass('seguido')) {
-          $$('#btnSeguir').removeClass('seguido').addClass('sinSeguir');
-          $$('#imgBtnSeguir').attr('src', 'img/019-add-user.png');
+        } else if ($$('#btnSeguirArt').hasClass('seguido')) {
+          $$('#btnSeguirArt').removeClass('seguido').addClass('sinSeguir');
+          $$('#imgBtnSeguirArt').attr('src', 'img/019-add-user.png');
+
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === us) {
+              arr.splice(i, 1);
+              i--;
+            }
+          }
+          console.log(arr);
+          return colUsuariosSeguidos.doc(email).update({
+              nombreUsuariosSeguidos: arr
+            })
+            .then(() => {
+              console.log("Document successfully updated!");
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+
+          console.log('Usuario dejado de seguir');
+        }
+
+      }).catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+
+  });
+
+
+})
+
+
+//-------------------------------------------------------PERFIL AJENO NORMAL----------------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-ajeno-normal"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
+
+  app.navbar.hide('#topNavbar');
+
+  uAjeno = nombreBusc;
+  email = $$('#idOculto').html();
+  console.log(uAjeno);
+
+  $$('#usAjenoNormal').html(uAjeno);
+
+  colUsuarios.where('nombreUsuario', '==', uAjeno).get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        eml = doc.id;
+        tUsuario = doc.data().tipoUsuario;
+        console.log(eml + 'y ' + tUsuario);
+
+        storage.ref().child(doc.data().icono).getDownloadURL()
+          .then(function(url) {
+            console.log("url: " + url);
+            $$('#iconoAjNor').attr('src', url);
+
+          })
+        console.log("sigo aca");
+        colPostTexto.where('email', '==', eml).orderBy('fechaPublicacion', 'desc').get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data());
+              date = new Date((doc.data().fechaPublicacion).toDate());
+              $$('#tabAjAr2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+                '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+
+        colPostImagen.where('email', '==', eml).orderBy('fechaPublicacion', 'desc').get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data());
+              date = new Date((doc.data().fechaPublicacion).toDate());
+
+              storage.ref().child(doc.data().archivo).getDownloadURL()
+                .then(function(url) {
+                  console.log("url: " + url);
+                  imgUrl = url;
+
+                  $$('#tabAjAr2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+                    doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
+                    '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+                    doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+
+                }).catch(function(error) {
+                  console.log("Error: " + error);
+                });
+
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+      })
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
+  colUsuariosSeguidos.doc(email).get()
+    .then((doc) => {
+      arr = doc.data().nombreUsuariosSeguidos;
+      console.log(arr);
+      u = uAjeno;
+      console.log(u);
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == u) {
+          $$('#btnSeguirNor').addClass('seguido').removeClass('sinSeguir');
+          $$('#imgBtnSeguirNor').attr('src', 'img/018-remove-user.png');
+        } else {
+          //nada
+        }
+      }
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
+  $$('#btnSeguirNor').on('click', function() {
+    email = $$('#idOculto').html();
+    us = uAjeno;
+
+    colUsuariosSeguidos.doc(email).get()
+      .then((doc) => {
+
+        if ($$('#btnSeguirNor').hasClass('sinSeguir')) {
+          $$('#btnSeguirNor').removeClass('sinSeguir').addClass('seguido');
+          $$('#imgBtnSeguirNor').attr('src', 'img/018-remove-user.png');
+          // array = doc.data().nombreUsuariosSeguidos;
+          // console.log(array);
+          array = usSeguidos;
+          console.log(array);
+          array.push(us);
+          datos = {
+            nombreUsuariosSeguidos: array
+          };
+          colUsuariosSeguidos.doc(email).set(datos);
+          console.log('Usuario seguido');
+
+        } else if ($$('#btnSeguirArt').hasClass('seguido')) {
+          $$('#btnSeguirNor').removeClass('seguido').addClass('sinSeguir');
+          $$('#imgBtnSeguirNor').attr('src', 'img/019-add-user.png');
 
           for (var i = 0; i < arr.length; i++) {
             if (arr[i] === us) {
@@ -708,10 +879,19 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno"]', function(e) {
 })
 
 
+//------------------------------------------EDITAR ARTISTA------------------------------------------------
+$$(document).on('page:init', '.page[data-name="perf-ajeno-normal"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("listo!");
 
+  app.navbar.hide('#topNavbar');
 
+  $$('#btnGuardar1').on('click', function() {
+    
+  })
 
-
+})
 
 
 

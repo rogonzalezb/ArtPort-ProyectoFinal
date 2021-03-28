@@ -62,6 +62,10 @@ h1 {
   width: 90vw;
 }
 
+/* .tab {
+  text-align: center;
+} */
+
 .tab-link {
   border-radius: 5px 5px 0 0 !important;
   margin-left: 3px;
@@ -78,24 +82,28 @@ h1 {
 .contTab1 {
   border: 1px solid #dddd;
   border-radius: 0 0 5px 5px;
-  display: flex !important;
-  flex-wrap: wrap !important;
+  display: flex;
+  flex-wrap: wrap;
   /* padding: 0 4px; */
-  width: 95vw;
+  width: 98vw;
+  margin: 0 auto;
+  text-align: center;
+  align-content: center;
 
 }
 
 .contGaleria {
-  flex: 50% !important;
-  max-width: 50% !important;
-  /* padding: 0 4px; */
+  flex: 48%;
+  max-width: 48%;
+  padding: 0 2px;
+  text-align: center;
 }
 
 .imgGaleria {
   border-radius: 5px;
   margin-top: 8px;
-  vertical-align: middle !important;
-  width: 100% !important;
+  vertical-align: middle;
+  width: 100%;
 
 }
 
