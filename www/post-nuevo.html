@@ -1,6 +1,6 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
 <div class="page no-toolbar" data-name="post-nuevo">
-  <div class="navbar">
+  <div class="navbar navbarEditado">
     <div class="navbar-inner sliding">
       <div class="left">
         <a href="/inicio/" class="link"><img class="iconoNavbar" src="img/115-left-arrow.png" alt="home"></a>
@@ -8,23 +8,23 @@
       </div>
     </div>
   </div>
-  <div class="page-content">
+  <div id="post-nuevo" class="page-content bc-gris">
     <div id="lista" class="list inset">
       <ul>
-        <div class="row">
-          <li class="item-content item-input col">
+        <div class="row bc-gris">
+          <li class="item-content item-input col bc-gris">
             <div class="item-inner">
               <div class="item-input-wrap ">
-                <input type="radio" id="nuevoTexto" class="icon-radio" name="tipoPost" value="texto" checked>
+                <input type="radio" id="nuevoTexto" class="icon-radio bc-gris" name="tipoPost" value="texto" checked>
                 <label for="nuevoTexto">Texto</label>
                 <span class="input-clear-button"></span>
               </div>
             </div>
           </li>
-          <li class="item-content item-input col">
+          <li class="item-content item-input col bc-gris">
             <div class="item-inner">
               <div class="item-input-wrap ">
-                <input type="radio" id="nuevaImg" class="icon-radio" name="tipoPost" value="imagen">
+                <input type="radio" id="nuevaImg" class="icon-radio bc-gris" name="tipoPost" value="imagen">
                 <label for="nuevaImg">Imagen</label>
                 <span class="input-clear-button"></span>
               </div>
@@ -32,63 +32,63 @@
           </li>
         </div>
         <div class="subirImagen" hidden>
-          <li class="item-content item-input item-input-with-info">
+          <li class="item-content item-input item-input-with-info bc-gris">
             <div class="item-inner">
               <div class="item-input-wrap">
-                <input type="file" id="file" placeholder="Elegir imagen" />
+                <input type="file" id="file" placeholder="Elegir imagen" class="bc-gris"/>
                 <span class="input-clear-button"></span>
                 <!-- <div class="item-input-info">Elegir imagen...</div> -->
               </div>
             </div>
           </li>
         </div>
-        <li class="item-content item-input">
+        <li class="item-content item-input bc-gris">
           <div class="item-inner">
             <div class="item-input-wrap">
-              <input id="tituloText" type="text" placeholder="Titulo" />
+              <input id="tituloText" type="text" placeholder="Titulo" class="bc-gris"/>
               <span class="input-clear-button"></span>
             </div>
           </div>
         </li>
-        <li class="item-content item-input">
+        <li class="item-content item-input bc-gris">
           <div class="item-inner">
             <div class="item-input-wrap">
-              <textarea id="descripText" class="resizable" placeholder="Descripción"></textarea>
+              <textarea id="descripText" class="resizable bc-gris" placeholder="Descripción"></textarea>
               <span class="input-clear-button"></span>
             </div>
           </div>
         </li>
-        <li class="item-content item-input">
+        <li class="item-content item-input bc-gris">
           <div class="item-inner">
             <div class="item-input-wrap">
-              <input id="textTag" type="text" placeholder="Tags" />
+              <input id="textTag" type="text" placeholder="Tags" class="bc-gris"/>
               <span class="input-clear-button"></span>
             </div>
           </div>
           <button id="agregarTag" class="button button-fill button-round button-small" type="button" name="button">Agregar Tag</button>
         </li>
         <div id="contenedorTags" class="contenedorTags">
-          <div class="chip">
+          <!-- <div class="chip">
             <div class="chip-label">Example Chip</div>
             <a href="#" class="chip-delete"></a>
-          </div>
+          </div> -->
         </div>
 
         <div class="subirImagen" hidden>
-          <div class="row">
-            <li class="item-content item-input col">
+          <div class="row bc-gris">
+            <li class="item-content item-input col bc-gris">
               <div class="item-inner">
                 <div class="item-input-wrap ">
-                  <input type="radio" id="edadATP" class="icon-radio" name="edadContenido" value="ATP" checked>
+                  <input type="radio" id="edadATP" class="icon-radio bc-gris" name="edadContenido" value="ATP" checked>
                   <label for="edadATP">Apto para todo publico</label>
                   <span class="input-clear-button"></span>
                 </div>
               </div>
             </li>
-            <li class="item-content item-input col">
+            <li class="item-content item-input col bc-gris">
               <div class="item-inner">
                 <div class="item-input-wrap ">
-                  <input type="radio" id="edadDieciocho" class="icon-radio" name="edadContenido" value="18">
+                  <input type="radio" id="edadDieciocho" class="icon-radio bc-gris" name="edadContenido" value="18">
                   <label for="edadDieciocho">+18</label>
                   <span class="input-clear-button"></span>
                 </div>
@@ -97,20 +97,20 @@
           </div>
           <div class="unicoImgArtista">
             <p>Publicar en:</p>
-            <div class="row">
-              <li class="item-content item-input col">
+            <div class="row bc-gris">
+              <li class="item-content item-input col bc-gris">
                 <div class="item-inner">
                   <div class="item-input-wrap ">
-                    <input type="radio" id="postGaleria" class="icon-radio" name="ubicacionPost" value="galeria" checked>
+                    <input type="radio" id="postGaleria" class="icon-radio bc-gris" name="ubicacionPost" value="galeria" checked>
                     <label for="postGaleria">Galeria</label>
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input col">
+              <li class="item-content item-input col bc-gris">
                 <div class="item-inner">
                   <div class="item-input-wrap ">
-                    <input type="radio" id="postGeneral" class="icon-radio" name="ubicacionPost" value="general">
+                    <input type="radio" id="postGeneral" class="icon-radio bc-gris" name="ubicacionPost" value="general">
                     <label for="postGeneral">General</label>
                     <span class="input-clear-button"></span>
                   </div>

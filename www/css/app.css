@@ -1,12 +1,36 @@
 /* Your app custom styles here */
+/* #inicio {
+  background-color: #f6f6f6;
+}
+
+#contenidoBuscar {
+  background-color: #f6f6f6;
+} */
+
+.bc-gris {
+  background-color: #f6f6f6 !important;
+}
+
+/* input {
+  background-color: #f6f6f6 !important;
+} */
 
 /*------------------- INICIO -----------------*/
-.navbar {
+.navbarEditado {
   border-radius: 0 0 15px 15px !important;
+  border: 1px solid #dddd;
+  background-color: white;
+}
+
+#buscador {
+  background-color: #f6f6f6;
+  border-bottom: 1px solid #dddd;
 }
 
 .toolbar {
   border-radius: 15px 15px 0 0 !important;
+  border: 1px solid #dddd;
+  background-color: white;
 }
 
 .iconoToolbar {
@@ -149,6 +173,8 @@ h1 {
   --f7-card-margin-horizontal: 0;
   --f7-card-margin-vertical: 8px;
   --f7-card-bg-color: #fff;
+  --f7-navbar-bg-color: white;
+  /* --f7-toolbar-bg-color: #fff; */
   /* --f7-grid-gap: 0; */
   /* --f7-card-outline-border-color: #dddd; */
   /* --f7-card-outline-border-color: rgba(0, 0, 0, 0.12); */

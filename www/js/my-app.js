@@ -879,16 +879,53 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno-normal"]', function(e)
 })
 
 
-//------------------------------------------EDITAR ARTISTA------------------------------------------------
-$$(document).on('page:init', '.page[data-name="perf-ajeno-normal"]', function(e) {
+//-------------------------------------------EDITAR ARTISTA------------------------------------------------
+$$(document).on('page:init', '.page[data-name="editar-artista"]', function(e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
-  console.log("listo!");
+  console.log("editar artista, listo!");
 
   app.navbar.hide('#topNavbar');
 
+  email = $$('#idOculto').text();
+  nom = $$('#miNombreUsuarioArt').val();
+  descp = $$('#descripTextUsArt').val();
+  info = $$('#infoTextUsArt').val();
+  console.log(email+" "+nom+" "+descp+" "+info);
+
+
   $$('#btnGuardar1').on('click', function() {
-    
+    nom = $$('#miNombreUsuarioArt').val();
+    descp = $$('#descripTextUsArt').val();
+    info = $$('#infoTextUsArt').val();
+    console.log(email+" "+nom+" "+descp+" "+info);
+
+    // $$('#miUsuarioArtista').html(nom);
+    // $$('#descripcionArt').text(descp);
+    // $$('#tab3').text(info);
+
+    archivo = document.getElementById("file2").files[0];
+    storage.ref(email + '/' + archivo.name).put(archivo);
+    console.log(archivo.name);
+    archivoPath = (email + '/' + archivo.name);
+    console.log(archivoPath);
+
+    colUsuarios.doc(email).update({
+        nombreUsuario: nom,
+        icono: archivoPath,
+        descripcion: descp,
+        informacion: info,
+      })
+      .then(() => {
+        console.log("Perfil editado!");
+        mainView.router.navigate('/perf-personal-artista/');
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+
+
+
   })
 
 })
@@ -933,7 +970,9 @@ function fnRegistrar() {
         nombreUsuario: rUsua,
         tipoUsuario: tipoUsuario,
         fecha: rFec,
-        icono: archivoPath
+        icono: archivoPath,
+        descripcion: "",
+        informacion: "",
       };
       colUsuarios.doc(rEmail).set(datos);
       console.log('Usuario creado');
@@ -1049,14 +1088,18 @@ function fnTomarDatosPerfilArt() {
 
       miUsuario = doc.data().nombreUsuario;
       miImagen = doc.data().icono;
+      miDescp = doc.data().descripcion;
+      miInfo = doc.data().informacion;
       console.log('Mi usuario: ' + miUsuario);
       $$('#miUsuarioArtista').html(miUsuario);
+      $$('#descripcionArt').html(miDescp);
+      $$('#tab3').html(miInfo);
 
       storage.ref().child(miImagen).getDownloadURL()
         .then(function(url) {
           console.log("url: " + url);
           imgUrl = url;
-          $$('#iconoArt').attr('src', url);
+          $$('#iconoArt').attr('src', imgUrl);
         }).catch(function(error) {
           console.log("Error: " + error);
         });
