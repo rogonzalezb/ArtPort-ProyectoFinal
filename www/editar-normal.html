@@ -1,0 +1,56 @@
+<!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
+<div class="page no-toolbar" data-name="editar-normal">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/perf-personal-normal/" class="link"><img class="iconoNavbar" src="img/115-left-arrow.png" alt="back"></a>
+        <div class="title left">Editar perfil</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div id="lista" class="list inset">
+      <ul>
+        <div class="">
+          <li class="item-content item-input item-input-with-info">
+            <div class="item-inner">
+              <div class="item-input-wrap">
+                <label for="file3">Cambiar imagen de perfil:</label>
+                <input type="file" id="file3" placeholder="Elegir imagen" />
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+        </div>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <label for="miNombreUsuarioNor">Cambiar nombre de usuario:</label>
+              <input id="miNombreUsuarioNor" type="text" placeholder="Nombre nuevo" />
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <label for="descripTextUsNor">Cambiar presentación:</label>
+              <textarea id="descripTextUsNor" class="resizable" placeholder="Presentación"></textarea>
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <label for="infoTextUsNor">Cambiar información personal:</label>
+              <textarea id="infoTextUsNor" class="resizable" placeholder="Información"></textarea>
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>
+    </div>
+
+    <button id="btnGuardar2" class="button button-fill button-round" type="button" name="button">Guardar cambios</button>
+  </div>
+</div>

@@ -61,6 +61,10 @@ var app = new Framework7({
       path: '/editar-normal/',
       url: 'editar-normal.html',
     },
+    {
+      path: '/post-unico/',
+      url: 'post-unico.html',
+    },
   ]
   // ... other parameters
 });
@@ -87,6 +91,13 @@ var imgUrl = "";
 var miIcono = "";
 var iconoAj = "";
 var tiUs = "";
+var urlBusc = "";
+var imgPostArt = "";
+var iconoPostArt = "";
+var usuarPostArt = "";
+var descrPostArt = "";
+var titulPostArt = "";
+var tagPostArt = "";
 
 
 // Handle Cordova Device Ready Event
@@ -252,7 +263,9 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
 
   fnTomarDatosPerfilNor();
 
-
+  $$('#btnEditarNor').on('click', function() {
+    mainView.router.navigate('/editar-normal/');
+  })
 
   colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
@@ -260,9 +273,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
         console.log(doc.id, " => ", doc.data());
         date = new Date((doc.data().fechaPublicacion).toDate());
 
-        $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-          doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h3>' + doc.data().titulo +
+        $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-content"><h3>' + doc.data().titulo +
           '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
     })
@@ -282,9 +293,7 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
             console.log("url: " + url);
             imgUrl = url;
 
-            $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-              doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-              '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+            $$('#tab-1').append('<div class="card demo-facebook-card no-shadow"><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
               doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
 
           }).catch(function(error) {
@@ -320,16 +329,13 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
 
   fnTomarDatosPerfilArt();
 
-
   colPostTexto.where('email', '==', idUsuario).orderBy('fechaPublicacion', 'desc').get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        date = new Date((doc.data().fechaPublicacion).toDate());
-        $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-          doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-          '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><h4>' + doc.data().titulo +
-          '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
+        // date = new Date((doc.data().fechaPublicacion).toDate());
+        $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-content"><h3>' + doc.data().titulo +
+          '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
       });
     })
     .catch((error) => {
@@ -341,36 +347,39 @@ $$(document).on('page:init', '.page[data-name="perf-personal-artista"]', functio
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        date = new Date((doc.data().fechaPublicacion).toDate());
+        // date = new Date((doc.data().fechaPublicacion).toDate());
+        // docDataArchivo = doc.data().archivo;
 
         storage.ref().child(doc.data().archivo).getDownloadURL() //pongo la ruta de la imagen en el storage
           .then(function(url) {
             console.log("url: " + url);
             imgUrl = url;
+            imgPostArt = imgUrl;
+            iconoPostArt = doc.data().miIcono;
+            usuarPostArt = doc.data().usuario;
+            descrPostArt = doc.data().descripcion;
+            titulPostArt = doc.data().titulo;
+            tagPostArt = doc.data().tags;
 
             if (doc.data().mostrarEn == 'galeria') {
-              // $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
-              // + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-              //   '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
-              //   doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
-              $$('#contenidoTab').append('<div class="contGaleria column"><img class="imgGaleria" src="' + imgUrl + '"/></div>');
+
+              $$('#contenidoTab').append('<div class="contGaleria column"><a href="/post-unico/"><img class="imgGaleria " src="' + imgUrl + '"/></a></div>');
 
             } else if (doc.data().mostrarEn == 'general') {
-              $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
-                doc.data().miIcono + '" /></div><div class="demo-facebook-name">' + doc.data().usuario +
-                '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
+              $$('#tab2').append('<div class="card demo-facebook-card no-shadow"><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h4>' +
                 doc.data().titulo + '</h4><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
             }
 
           }).catch(function(error) {
             console.log("Error: " + error);
-          });
-
-      });
+          })
+      })
     })
     .catch((error) => {
       console.log("Error getting documents: ", error);
     });
+
+
 
 
 })
@@ -623,13 +632,19 @@ $$(document).on('page:init', '.page[data-name="perf-ajeno-artista"]', function(e
                 .then(function(url) {
                   console.log("url: " + url);
                   imgUrl = url;
+                  imgPostArt = imgUrl;
+                  iconoPostArt = doc.data().miIcono;
+                  usuarPostArt = doc.data().usuario;
+                  descrPostArt = doc.data().descripcion;
+                  titulPostArt = doc.data().titulo;
+                  tagPostArt = doc.data().tags;
 
                   if (doc.data().mostrarEn == 'galeria') {
                     // $$('#tab1').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="'
                     // + doc.data().miIcono +'" width="34" height="34" /></div><div class="demo-facebook-name">' + doc.data().usuario +
                     //   '</div><div class="demo-facebook-date">' + date + '</div></div><div class="card-content"><img src="' + imgUrl + '" width="100%" /><h3>' +
                     //   doc.data().titulo + '</h3><p>' + doc.data().descripcion + '</p></div><div class="card-footer"><p>' + doc.data().tags + '</p></div></div>');
-                    $$('#contenidoTabAjAr').append('<div class="contGaleria column"><img class="imgGaleria" src="' + imgUrl + '"/></div>');
+                    $$('#contenidoTabAjAr').append('<div class="contGaleria column"><a href="/post-unico/"><img class="imgGaleria" src="' + imgUrl + '"/></a></div>');
 
                   } else if (doc.data().mostrarEn == 'general') {
                     $$('#tabAjAr2').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
@@ -888,21 +903,12 @@ $$(document).on('page:init', '.page[data-name="editar-artista"]', function(e) {
   app.navbar.hide('#topNavbar');
 
   email = $$('#idOculto').text();
-  nom = $$('#miNombreUsuarioArt').val();
-  descp = $$('#descripTextUsArt').val();
-  info = $$('#infoTextUsArt').val();
-  console.log(email+" "+nom+" "+descp+" "+info);
-
 
   $$('#btnGuardar1').on('click', function() {
     nom = $$('#miNombreUsuarioArt').val();
     descp = $$('#descripTextUsArt').val();
     info = $$('#infoTextUsArt').val();
-    console.log(email+" "+nom+" "+descp+" "+info);
-
-    // $$('#miUsuarioArtista').html(nom);
-    // $$('#descripcionArt').text(descp);
-    // $$('#tab3').text(info);
+    console.log(email + " " + nom + " " + descp + " " + info);
 
     archivo = document.getElementById("file2").files[0];
     storage.ref(email + '/' + archivo.name).put(archivo);
@@ -918,17 +924,173 @@ $$(document).on('page:init', '.page[data-name="editar-artista"]', function(e) {
       })
       .then(() => {
         console.log("Perfil editado!");
-        mainView.router.navigate('/perf-personal-artista/');
+        storage.ref().child(archivoPath).getDownloadURL()
+          .then(function(url) {
+            console.log("url: " + url);
+            colPostMixto.where("email", "==", email).get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  id = doc.id;
+                  console.log(id);
+                  colPostMixto.doc(id).update({
+                      miIcono: url,
+                    })
+                    .then(() => {
+                      console.log("editado!");
+                      mainView.router.navigate('/perf-personal-artista/');
+                    })
+                    .catch((error) => {
+                      console.error("Error updating document: ", error);
+                    })
+                })
+              }).catch((error) => {
+                console.error("Error updating document: ", error);
+              })
+            colPostImagen.where("email", "==", email).get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  id = doc.id;
+                  console.log(id);
+                  colPostImagen.doc(id).update({
+                      miIcono: url,
+                    })
+                    .then(() => {
+                      console.log("editado!");
+                      mainView.router.navigate('/perf-personal-artista/');
+                    })
+                    .catch((error) => {
+                      console.error("Error updating document: ", error);
+                    })
+                })
+              }).catch((error) => {
+                console.error("Error updating document: ", error);
+              })
+          }).catch((error) => {
+            console.error("Error updating document: ", error);
+          })
       })
       .catch((error) => {
         console.error("Error updating document: ", error);
       });
 
 
+  })
+
+})
+
+
+//-------------------------------------------EDITAR NORMAL------------------------------------------------
+$$(document).on('page:init', '.page[data-name="editar-normal"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("editar artista, listo!");
+
+  app.navbar.hide('#topNavbar');
+
+  email = $$('#idOculto').text();
+
+  $$('#btnGuardar2').on('click', function() {
+    nom = $$('#miNombreUsuarioNor').val();
+    descp = $$('#descripTextUsNor').val();
+    info = $$('#infoTextUsNor').val();
+    console.log(email + " " + nom + " " + descp + " " + info);
+
+    archivo = document.getElementById("file3").files[0];
+    storage.ref(email + '/' + archivo.name).put(archivo);
+    console.log(archivo.name);
+    archivoPath = (email + '/' + archivo.name);
+    console.log(archivoPath);
+
+    colUsuarios.doc(email).update({
+        nombreUsuario: nom,
+        icono: archivoPath,
+        descripcion: descp,
+        informacion: info,
+      })
+      .then(() => {
+        console.log("Perfil editado!");
+        storage.ref().child(archivoPath).getDownloadURL()
+          .then(function(url) {
+            console.log("url: " + url);
+            colPostMixto.where("email", "==", email).get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  id = doc.id;
+                  console.log(id);
+                  colPostMixto.doc(id).update({
+                      miIcono: url,
+                    })
+                    .then(() => {
+                      console.log("editado!");
+                      mainView.router.navigate('/perf-personal-artista/');
+                    })
+                    .catch((error) => {
+                      console.error("Error updating document: ", error);
+                    })
+                })
+              }).catch((error) => {
+                console.error("Error updating document: ", error);
+              })
+            colPostImagen.where("email", "==", email).get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  id = doc.id;
+                  console.log(id);
+                  colPostImagen.doc(id).update({
+                      miIcono: url,
+                    })
+                    .then(() => {
+                      console.log("editado!");
+                      mainView.router.navigate('/perf-personal-artista/');
+                    })
+                    .catch((error) => {
+                      console.error("Error updating document: ", error);
+                    })
+                })
+              }).catch((error) => {
+                console.error("Error updating document: ", error);
+              })
+          }).catch((error) => {
+            console.error("Error updating document: ", error);
+          })
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+
 
   })
 
 })
+
+
+//-------------------------------------------POST UNICO------------------------------------------------
+$$(document).on('page:init', '.page[data-name="post-unico"]', function(e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+  console.log("editar artista, listo!");
+
+  // colPostMixto.where("archivo", "==", urlBusc).get()
+  //   .then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+
+  $$('#elPostUnico').append('<div class="card demo-facebook-card no-shadow"><div class="card-header"><div class="demo-facebook-avatar"><img class="iconito" src="' +
+    iconoPostArt + '" /></div><div class="demo-facebook-name">' + usuarPostArt + '</div></div><div class="card-content"><img src="' +
+    imgUrl + '" width="100%" /><h3>' + titulPostArt + '</h3><p>' + descrPostArt + '</p></div><div class="card-footer"><p>' + tagPostArt + '</p></div></div>');
+
+  //         mainView.router.navigate('/post-unico/');
+  //       })
+  //     }).catch((error) => {
+  //       console.log("Error: ", error);
+  //     });
+  //     imgPostArt = imgUrl;
+  //     iconoPostArt = doc.data().miIcono;
+  //     usuarPostArt = doc.data().usuario;
+  //     descrPostArt = doc.data().descripcion;
+  //     titulPostArt = doc.data().titulo;
+  //     tagPostArt = doc.data().tags;
+})
+
 
 
 

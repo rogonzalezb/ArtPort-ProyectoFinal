@@ -97,14 +97,26 @@ h1 {
 }
 
 .card {
-  border: 1px solid #dddd;
-  margin-left: 3px;
+  border: 1.5px solid #dddd;
+  /* margin-left: 3px;
   margin-right: 3px;
-  margin-top: 0 !important;
+  margin-top: 0 !important; */
+  margin: 8px 3px !important;
+}
+
+/* .demo-facebook-name {
+  margin-right: 20vw;
+  font-weight: bold;
+} */
+
+.demo-facebook-avatar {
+  height: 4vh;
+  width: 4vh;
+  float: left;
 }
 
 .contTab1 {
-  border: 1px solid #dddd;
+  border: 1.5px solid #dddd;
   border-radius: 0 0 5px 5px;
   display: flex;
   flex-wrap: wrap;
@@ -152,7 +164,9 @@ h1 {
   width: 4vh;
 }
 
-
+/* .paddingTop {
+  padding-top: 6vh;
+} */
 
 
 /* #fondoImg {
