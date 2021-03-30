@@ -306,7 +306,14 @@ $$(document).on('page:init', '.page[data-name="perf-personal-normal"]', function
       console.log("Error getting documents: ", error);
     });
 
-
+    $$('#btnSalirNor').on('click', function() {
+      firebase.auth().signOut().then(() => {
+        console.log('Sign-out successful');
+        mainView.router.navigate('/index/');
+      }).catch((error) => {
+        console.log("Error: " + error);
+      });
+    })
 
 
 })
@@ -1050,7 +1057,45 @@ $$(document).on('page:init', '.page[data-name="editar-normal"]', function(e) {
                     })
                     .then(() => {
                       console.log("editado!");
-                      mainView.router.navigate('/perf-personal-normal/');
+                      colPostImagen.where("email", "==", email).get()
+                        .then((querySnapshot) => {
+                          querySnapshot.forEach((doc) => {
+                            id = doc.id;
+                            console.log(id);
+                            colPostImagen.doc(id).update({
+                                miIcono: url,
+                                usuario: nom,
+                              })
+                              .then(() => {
+                                console.log("editado!");
+                                colPostTexto.where("email", "==", email).get()
+                                  .then((querySnapshot) => {
+                                    querySnapshot.forEach((doc) => {
+                                      id = doc.id;
+                                      console.log(id);
+                                      colPostTexto.doc(id).update({
+                                          miIcono: url,
+                                          usuario: nom,
+                                        })
+                                        .then(() => {
+                                          console.log("editado!");
+                                          mainView.router.navigate('/inicio/');
+                                        })
+                                        .catch((error) => {
+                                          console.error("Error updating document: ", error);
+                                        })
+                                    })
+                                  }).catch((error) => {
+                                    console.error("Error updating document: ", error);
+                                  })
+                              })
+                              .catch((error) => {
+                                console.error("Error updating document: ", error);
+                              })
+                          })
+                        }).catch((error) => {
+                          console.error("Error updating document: ", error);
+                        })
                     })
                     .catch((error) => {
                       console.error("Error updating document: ", error);
@@ -1059,46 +1104,8 @@ $$(document).on('page:init', '.page[data-name="editar-normal"]', function(e) {
               }).catch((error) => {
                 console.error("Error updating document: ", error);
               })
-            colPostImagen.where("email", "==", email).get()
-              .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                  id = doc.id;
-                  console.log(id);
-                  colPostImagen.doc(id).update({
-                      miIcono: url,
-                      usuario: nom,
-                    })
-                    .then(() => {
-                      console.log("editado!");
-                      mainView.router.navigate('/perf-personal-normal/');
-                    })
-                    .catch((error) => {
-                      console.error("Error updating document: ", error);
-                    })
-                })
-              }).catch((error) => {
-                console.error("Error updating document: ", error);
-              })
-            colPostTexto.where("email", "==", email).get()
-              .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                  id = doc.id;
-                  console.log(id);
-                  colPostTexto.doc(id).update({
-                      miIcono: url,
-                      usuario: nom,
-                    })
-                    .then(() => {
-                      console.log("editado!");
-                      mainView.router.navigate('/perf-personal-normal/');
-                    })
-                    .catch((error) => {
-                      console.error("Error updating document: ", error);
-                    })
-                })
-              }).catch((error) => {
-                console.error("Error updating document: ", error);
-              })
+
+
           }).catch((error) => {
             console.error("Error updating document: ", error);
           })
@@ -1332,8 +1339,12 @@ function fnTomarDatosPerfilNor() {
 
       miUsuario = doc.data().nombreUsuario;
       miImagen = doc.data().icono;
+      miDescp = doc.data().descripcion;
+      miInfo = doc.data().informacion;
       console.log('Mi usuario: ' + miUsuario);
       $$('#miUsuarioNormal').html(miUsuario);
+      $$('#descripcionNor').html(miDescp);
+      $$('#tab-2-2').html(miInfo);
 
       storage.ref().child(miImagen).getDownloadURL()
         .then(function(url) {
