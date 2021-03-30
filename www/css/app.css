@@ -31,6 +31,20 @@
 
 }
 
+.contenidoform {
+  width: 75vw;
+  height: 60vh;
+  margin: auto;
+  padding: 10vh 0;
+}
+
+.contenidoformpost {
+  width: 75vw;
+  height: 60vh;
+  margin: auto;
+  /* padding: 6vh 0; */
+}
+
 ::-webkit-file-upload-button {
   background: rgb(174, 229, 238);
   background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
@@ -52,6 +66,12 @@
   background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
 }
 
+.botonTag {
+  width: 50vw;
+  background: rgb(174, 229, 238);
+  background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
+}
+
 #btnRegistro {
   margin-top: 2vh;
   width: 50vw;
@@ -64,10 +84,13 @@
   font-size: 2rem;
 }
 
-.bc-gris {
+.bc-gris2 {
   background-color: #f6f6f6 !important;
 }
 
+.margenTop {
+  margin-top: 30vw;
+}
 /*------------------- INICIO -----------------*/
 .liNoPad {
   padding: 10px 0 !important;
@@ -96,7 +119,7 @@
 } */
 
 #buscador {
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
   border-bottom: 1px solid #dddd;
 }
 
@@ -118,7 +141,7 @@
 
 .pInpuFile {
   font-size: 0.8rem;
-  color: #6e7c7c;
+  /* color: #6e7c7c; */
 }
 
 /*------------------- PERFIL -----------------*/

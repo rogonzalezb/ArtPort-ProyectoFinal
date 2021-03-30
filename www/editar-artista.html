@@ -9,48 +9,51 @@
     </div>
   </div>
   <div class="page-content">
-    <div id="lista" class="list inset">
-      <ul>
-        <div class="">
-          <li class="item-content item-input item-input-with-info">
+    <div class="contenidoform ">
+      <div id="lista" class="list inset display-flex flex-direction-column align-content-center justify-content-center align-items-center">
+        <ul>
+          <div class="">
+            <li class="item-content item-input item-input-with-info">
+              <div class="item-inner">
+                <div class="item-input-wrap">
+                  <label for="file2">Cambiar imagen de perfil:</label>
+                  <input type="file" id="file2" placeholder="Elegir imagen" />
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+          </div>
+          <li class="item-content item-input liNoPad">
             <div class="item-inner">
               <div class="item-input-wrap">
-                <label for="file2">Cambiar imagen de perfil:</label>
-                <input type="file" id="file2" placeholder="Elegir imagen" />
+                <label for="miNombreUsuarioArt">Cambiar nombre de usuario:</label>
+                <input id="miNombreUsuarioArt" type="text" placeholder="Nombre nuevo" />
                 <span class="input-clear-button"></span>
               </div>
             </div>
           </li>
-        </div>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <label for="miNombreUsuarioArt">Cambiar nombre de usuario:</label>
-              <input id="miNombreUsuarioArt" type="text" placeholder="Nombre nuevo" />
-              <span class="input-clear-button"></span>
+          <li class="item-content item-input liNoPad">
+            <div class="item-inner">
+              <div class="item-input-wrap">
+                <label for="descripTextUsArt">Cambiar presentación:</label>
+                <textarea id="descripTextUsArt" class="resizable" placeholder="Presentación"></textarea>
+                <span class="input-clear-button"></span>
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <label for="descripTextUsArt">Cambiar presentación:</label>
-              <textarea id="descripTextUsArt" class="resizable" placeholder="Presentación"></textarea>
-              <span class="input-clear-button"></span>
+          </li>
+          <li class="item-content item-input liNoPad">
+            <div class="item-inner">
+              <div class="item-input-wrap">
+                <label for="infoTextUsArt">Cambiar información personal:</label>
+                <textarea id="infoTextUsArt" class="resizable" placeholder="Información"></textarea>
+                <span class="input-clear-button"></span>
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <label for="infoTextUsArt">Cambiar información personal:</label>
-              <textarea id="infoTextUsArt" class="resizable" placeholder="Información"></textarea>
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-    </div>
+          </li>
+        </ul>
+        <button id="btnGuardar1" class="button button-fill button-raised botonIndex" type="button" name="button">Guardar cambios</button>
+      </div>
 
-    <button id="btnGuardar1" class="button button-fill button-round" type="button" name="button">Guardar cambios</button>
+    </div>
   </div>
 </div>
