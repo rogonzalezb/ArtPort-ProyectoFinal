@@ -4,29 +4,31 @@
 </div>
 <div class="page no-toolbar no-navbar" data-name="ingresar">
   <div class="page-content">
-    <div class="block-title">Ingresar</div>
-    <div class="list inset">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input id="emailLogin" type="email" placeholder="Email" value="artista1234@dominio.com" />
-              <span class="input-clear-button"></span>
+    <div class="contenidoIndex display-flex flex-direction-column align-content-center justify-content-center align-items-center">
+      <h1>Ingresar</h1>
+      <div class="list inset display-flex flex-direction-column align-content-center justify-content-center align-items-center">
+        <ul>
+          <li class="item-content item-input liNoPad">
+            <div class="item-inner liNoPad">
+              <div class="item-input-wrap">
+                <input id="emailLogin" class="inputPad" type="email" placeholder="Email" value="artista1234@dominio.com" />
+                <span class="input-clear-button"></span>
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input id="passLogin" type="password" placeholder="Contraseña" value="artista1234" />
-              <span class="input-clear-button"></span>
+          </li>
+          <li class="item-content item-input liNoPad">
+            <div class="item-inner liNoPad">
+              <div class="item-input-wrap">
+                <input id="passLogin" class="inputPad" type="password" placeholder="Contraseña" value="artista1234" />
+                <span class="input-clear-button"></span>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-      <button id="btnIngresar" class="button button-fill button-round" type="button" name="button">Ingresar</button>
-      <a href="#">¿Olvidaste tu contraseña?</a>
-      <p>¿No tienes una cuenta? <a href="/registro/">Registrate!</a></p>
+          </li>
+        </ul>
+        <button id="btnIngresar" class="button button-fill button-raised botonIndex" type="button" name="button">Ingresar</button>
+        <!-- <a href="#">¿Olvidaste tu contraseña?</a> -->
+        <p class="parrfInicio">¿No tienes una cuenta? <a href="/registro/">Registrate!</a></p>
+      </div>
     </div>
   </div>
 </div>
