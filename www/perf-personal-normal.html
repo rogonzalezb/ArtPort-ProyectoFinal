@@ -3,13 +3,21 @@
   <div class="navbar navbar-transparent">
     <div class="navbar-inner sliding">
       <div class="left">
-        <a href="/inicio/" class="link"><img class="iconoNavbar" src="img/115-left-arrow.png" alt="home"></a>
+        <a href="/inicio/" class="link"><img class="iconoNavbar" src="img/115-left-arrow2.png" alt="home"></a>
       </div>
       <div class="right">
-        <a href="#" class="link"><img class="iconoNavbar" src="img/150-menu-2.png" alt="home"></a>
+        <a href="#" class="panel-open" data-panel=".panel-right-1"><img class="iconoNavbar sidePanel" src="img/150-menu-3.png" alt="home"></a>
       </div>
     </div>
   </div>
+
+  <div class="panel panel-right panel-right-1 panel-cover panel-resizable panel-init">
+    <div class="block">
+      <button id="btnSalirNor" class="button button-fill button-raised botonIndex panel-close" type="button" name="button">Cerrar sesión</button>
+      <p><a class="panel-close" href="#">Cerrar pestaña</a></p>
+    </div>
+  </div>
+
   <div class="page-content hide-navbar-on-scroll">
     <div class="encabezado">
       <img id="iconoNor" class="primeraFoto" src="" alt="wave">
@@ -21,7 +29,7 @@
           <h1 id="miUsuarioNormal" class="col-75"></h1>
           <button id="btnEditarNor" class="col-25 button button-raised" type="button" name="button">Editar</button>
         </div>
-        <p id="descripcionNor">Hola, soy Usuario Normal</p>
+        <p id="descripcionNor"></p>
       </div>
     </div>
     <div class="block block-editado">
@@ -38,10 +46,14 @@
 
           </div>
           <div id="tab-2" class="tab">
-            <p>Tab 2 content</p>
+            <div id="tab-2-2" class="contTab1">
+
+            </div>
           </div>
           <div id="tab-3" class="tab">
-            <p>Tab 3 content</p>
+            <div class="contTab1">
+              <p>#tag #tag #tag #tag #tag #tag #tag #tag #tag #tag #tag #tag </p>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,20 @@
   height: 30vh;
 }
 
+/* #titulo {
+  color: white;
+} */
+/* .tituloNAvbar{
+  margin-left: 3vw !important;
+}
+
+.logoNavbar {
+  height: 5.5vh;
+} */
+.cardTexto {
+  padding: 0 16px;
+}
+
 .contenidoIndex {
   width: 75vw;
   height: 70vh;
@@ -71,9 +85,15 @@
 
 .navbarEditado {
   border-radius: 0 0 15px 15px !important;
-  border: 1px solid #dddd;
-  background-color: white;
+  /* border: 1px solid #dddd; */
+  background: rgb(174, 229, 238);
+  background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
 }
+
+/* #topNavbar {
+  background: rgb(174, 229, 238) !important;
+  background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%) !important;
+} */
 
 #buscador {
   background-color: #f6f6f6;
@@ -82,8 +102,9 @@
 
 .toolbar {
   border-radius: 15px 15px 0 0 !important;
-  border: 1px solid #dddd;
-  background-color: white;
+  /* border: 1px solid #dddd; */
+  background: rgb(174, 229, 238);
+  background: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
 }
 
 .iconoToolbar {
@@ -148,9 +169,13 @@ h1 {
   text-align: center;
 } */
 .tab-link {
-  border-radius: 5px 5px 0 0 !important;
+  border-radius: 5px !important;
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.sidePanel {
+  margin-right: 3vw;
 }
 
 .card {
@@ -173,26 +198,33 @@ h1 {
 
 .contTab1 {
   border: 1.5px solid #dddd;
-  border-radius: 0 0 5px 5px;
+  border-radius: 6px;
   display: flex;
   flex-wrap: wrap;
   /* padding: 0 4px; */
   width: 98vw;
-  margin: 0 auto;
-  text-align: center;
-  align-content: center;
+  margin: 8px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
 }
 
 .contGaleria {
   flex: 48%;
   max-width: 48%;
-  padding: 0 2px;
+  padding: 0;
   text-align: center;
 }
 
+.tabInformacion {
+
+}
+
 .imgGaleria {
-  border-radius: 5px;
-  margin-top: 8px;
+  border-radius: 6px;
+  margin: 4px 0;
   vertical-align: middle;
   width: 100%;
 }
@@ -241,7 +273,7 @@ h1 {
   --f7-card-margin-horizontal: 0;
   --f7-card-margin-vertical: 8px;
   --f7-card-bg-color: #fff;
-  --f7-navbar-bg-color: white;
+  --f7-navbar-bg-color: linear-gradient(90deg, rgba(174, 229, 238, 1) 0%, rgba(118, 140, 233, 1) 100%);
   /* --f7-toolbar-bg-color: #fff; */
   /* --f7-grid-gap: 0; */
   /* --f7-card-outline-border-color: #dddd; */
