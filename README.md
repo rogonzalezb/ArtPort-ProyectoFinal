@@ -1,22 +1,12 @@
 
-# Bienvenid@!! 
+# ArtPort - Red social para artistas - WIP
 
-En este repositorio podés encontrar un template de Framework7 listo para usar para el desarrollo de aplicaciones con Apache Cordova.
+ArtPort es una aplicacion movil creada para solucionar los problemas que tienen otras redes sociales a la hora de ser utilizada por artistas. Su objetivo es brindar un espacio en el que estos creadores puedan subir fotos de sus trabajos y compartirlas con el mundo, sin sufrir de los algoritmos sofocantes que poseen otras apps de esta indole. Puede ser usada de portfolio, permite subir contenido +18 de forma segura y con las reglas adecuadas, se pueden hacer publicaciones de texto, compartir publicaciones de otros usuarios, buscar entre tags y usuarios, seguir a otros creadores, mensajeria instantanea, y mucho mas!
 
-## Qué es [Framework7](https://framework7.io/)?
+ArtPort es un trabajo en proceso. Es el proyecto final presentado en el Curso intensivo de desarrollo de Aplicaciones Mobiles con Apache Cordova de ComIT (81hs de desarrollo).
+Funcionalidades hasta el momento: Registro, login y cierre de sesión de usuarios (dos tipos de usuarios), visualización y edición de perfil personal, agregar posts nuevos (texto o imagen), buscar usuarios, visualización de perfil ajeno, seguir y dejar de seguir perfil ajeno, visualización de posts ajenos en feed personal.
 
-Es un framework CSS con una librería propia de manejo del DOM, similar a JQuery.
-El resultado de las aplicaciones respeta los estilos de iOS/Android como si fueran nativas.
+Tecnologías utilizadas: HTML5, CSS3, Javascript, JQuery, Framework7, Firebase, SQL, NoSQL, Git y GitHub.
 
-## [Apache Cordova](https://cordova.apache.org/)
-
-Nos permite el desarrollo de aplicaciones híbridas. Y de esta manera con un solo código poner tener aplicaciones para Android e iOS.
-
-## Cómo descargo el template?
-
-Crea y/o ingresa a tu carpeta inicial del desarrollo. Descarga el template con el comando:
-
-    git clone https://github.com/JorgePHI/f7-v606
-
-Ingresando luego en la carpeta f7-v606 podrá usar el template de Framework 7, Version 6.0.6
+Aplicación de metodologías SCRUM/KanBan con Trello.
 
